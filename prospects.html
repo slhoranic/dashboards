@@ -7,79 +7,79 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  :root {{
     --bg: #0f0f11; --surface: #18181c; --surface2: #1e1e24;
     --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
     --text: #e8e6e0; --text-muted: #7a7870; --text-dim: #4a4845;
     --red: #e05a4a; --amber: #e09a3a; --blue: #4a8fe0; --green: #4ab07a; --purple: #9b7fe0;
     --font-mono: 'DM Mono', monospace; --font-sans: 'DM Sans', sans-serif;
-  }
-  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.6; min-height: 100vh; }
-  .header { border-bottom: 1px solid var(--border); padding: 24px 40px 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .header-left h1 { font-size: 20px; font-weight: 500; letter-spacing: -0.3px; }
-  .header-left p { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-family: var(--font-mono); }
-  .header-right { display: flex; gap: 8px; }
-  .tab { font-family: var(--font-mono); font-size: 11px; padding: 5px 13px; border-radius: 4px; border: 1px solid var(--border2); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-  .tab:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
-  .tab.active { background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.2); }
-  .metrics { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid var(--border); }
-  .metric { padding: 18px 24px; border-right: 1px solid var(--border); }
-  .metric:last-child { border-right: none; }
-  .metric-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 5px; }
-  .metric-value { font-size: 26px; font-weight: 300; letter-spacing: -1px; line-height: 1; }
-  .metric-sub { font-size: 10px; color: var(--text-dim); margin-top: 4px; font-family: var(--font-mono); }
-  .main { display: grid; grid-template-columns: 1fr 320px; min-height: calc(100vh - 160px); }
-  .chart-area { padding: 24px 32px; border-right: 1px solid var(--border); }
-  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
-  .chart-title { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
-  .legend { display: flex; gap: 14px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .chart-wrap { position: relative; width: 100%; height: 440px; }
-  #tooltip { position: fixed; pointer-events: none; background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: var(--text); display: none; z-index: 100; min-width: 210px; line-height: 1.8; font-family: var(--font-mono); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-  #tooltip strong { font-size: 13px; display: block; margin-bottom: 4px; font-family: var(--font-sans); font-weight: 500; }
-  .chart-note { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); margin-top: 10px; }
-  .sidebar { padding: 20px; overflow-y: auto; max-height: calc(100vh - 160px); }
-  .sidebar-section { margin-bottom: 22px; }
-  .sidebar-title { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
-  .campus-row { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 4px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid var(--border); }
-  .campus-row:hover { background: var(--surface2); }
-  .campus-row:last-child { border-bottom: none; }
-  .campus-name { font-size: 11px; color: var(--text); font-family: var(--font-mono); width: 90px; flex-shrink: 0; }
-  .campus-stats { display: flex; flex-direction: column; gap: 1px; flex: 1; }
-  .campus-stat-row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; }
-  .stat-label { color: var(--text-dim); }
-  .view-toggle { display: flex; gap: 1px; margin-bottom: 16px; }
-  .vtab { font-family: var(--font-mono); font-size: 10px; padding: 5px 10px; border: 1px solid var(--border2); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-  .vtab:first-child { border-radius: 4px 0 0 4px; }
-  .vtab:last-child { border-radius: 0 4px 4px 0; }
-  .vtab + .vtab { border-left: none; }
-  .vtab.active { background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.2); }
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; opacity: 0; animation: fadeIn 0.3s forwards; }
-  @keyframes fadeIn { to { opacity: 1; } }
-  .bar-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 96px; text-align: right; flex-shrink: 0; }
-  .bar-track { flex: 1; height: 18px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
-  .bar-val { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 42px; flex-shrink: 0; }
-  .detail-panel { display: none; position: fixed; top: 0; right: 0; width: 380px; height: 100vh; background: var(--surface); border-left: 1px solid var(--border2); z-index: 200; overflow-y: auto; box-shadow: -8px 0 32px rgba(0,0,0,0.5); }
-  .detail-panel.open { display: block; }
-  .detail-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
-  .detail-close { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 2px 6px; }
-  .detail-close:hover { color: var(--text); }
-  .detail-body { padding: 20px 24px; }
-  .detail-section { margin-bottom: 24px; }
-  .detail-section-title { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 12px; }
-  .new-campus-note { font-family: var(--font-mono); font-size: 10px; color: var(--purple); background: rgba(155,127,224,0.08); border: 1px solid rgba(155,127,224,0.2); border-radius: 4px; padding: 6px 10px; margin-bottom: 10px; }
-  @media (max-width: 900px) {
-    .main { grid-template-columns: 1fr; }
-    .metrics { grid-template-columns: repeat(3, 1fr); }
-    .header { padding: 16px 20px; }
-    .chart-area { padding: 16px 20px; }
-    .chart-wrap { height: 320px; }
-    .sidebar { border-top: 1px solid var(--border); max-height: none; }
-    .detail-panel { width: 100%; }
-  }
+  }}
+  body {{ background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.6; min-height: 100vh; }}
+  .header {{ border-bottom: 1px solid var(--border); padding: 24px 40px 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }}
+  .header-left h1 {{ font-size: 20px; font-weight: 500; letter-spacing: -0.3px; }}
+  .header-left p {{ font-size: 11px; color: var(--text-muted); margin-top: 3px; font-family: var(--font-mono); }}
+  .header-right {{ display: flex; gap: 8px; }}
+  .tab {{ font-family: var(--font-mono); font-size: 11px; padding: 5px 13px; border-radius: 4px; border: 1px solid var(--border2); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }}
+  .tab:hover {{ color: var(--text); border-color: rgba(255,255,255,0.2); }}
+  .tab.active {{ background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.2); }}
+  .metrics {{ display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid var(--border); }}
+  .metric {{ padding: 18px 24px; border-right: 1px solid var(--border); }}
+  .metric:last-child {{ border-right: none; }}
+  .metric-label {{ font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 5px; }}
+  .metric-value {{ font-size: 26px; font-weight: 300; letter-spacing: -1px; line-height: 1; }}
+  .metric-sub {{ font-size: 10px; color: var(--text-dim); margin-top: 4px; font-family: var(--font-mono); }}
+  .main {{ display: grid; grid-template-columns: 1fr 320px; min-height: calc(100vh - 160px); }}
+  .chart-area {{ padding: 24px 32px; border-right: 1px solid var(--border); }}
+  .chart-header {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }}
+  .chart-title {{ font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }}
+  .legend {{ display: flex; gap: 14px; flex-wrap: wrap; }}
+  .legend-item {{ display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }}
+  .legend-dot {{ width: 8px; height: 8px; border-radius: 50%; }}
+  .chart-wrap {{ position: relative; width: 100%; height: 440px; }}
+  #tooltip {{ position: fixed; pointer-events: none; background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: var(--text); display: none; z-index: 100; min-width: 210px; line-height: 1.8; font-family: var(--font-mono); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }}
+  #tooltip strong {{ font-size: 13px; display: block; margin-bottom: 4px; font-family: var(--font-sans); font-weight: 500; }}
+  .chart-note {{ font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); margin-top: 10px; }}
+  .sidebar {{ padding: 20px; overflow-y: auto; max-height: calc(100vh - 160px); }}
+  .sidebar-section {{ margin-bottom: 22px; }}
+  .sidebar-title {{ font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }}
+  .campus-row {{ display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 4px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid var(--border); }}
+  .campus-row:hover {{ background: var(--surface2); }}
+  .campus-row:last-child {{ border-bottom: none; }}
+  .campus-name {{ font-size: 11px; color: var(--text); font-family: var(--font-mono); width: 90px; flex-shrink: 0; }}
+  .campus-stats {{ display: flex; flex-direction: column; gap: 1px; flex: 1; }}
+  .campus-stat-row {{ display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; }}
+  .stat-label {{ color: var(--text-dim); }}
+  .view-toggle {{ display: flex; gap: 1px; margin-bottom: 16px; }}
+  .vtab {{ font-family: var(--font-mono); font-size: 10px; padding: 5px 10px; border: 1px solid var(--border2); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }}
+  .vtab:first-child {{ border-radius: 4px 0 0 4px; }}
+  .vtab:last-child {{ border-radius: 0 4px 4px 0; }}
+  .vtab + .vtab {{ border-left: none; }}
+  .vtab.active {{ background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.2); }}
+  .bar-row {{ display: flex; align-items: center; gap: 10px; margin-bottom: 5px; opacity: 0; animation: fadeIn 0.3s forwards; }}
+  @keyframes fadeIn {{ to {{ opacity: 1; }} }}
+  .bar-label {{ font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 96px; text-align: right; flex-shrink: 0; }}
+  .bar-track {{ flex: 1; height: 18px; background: var(--surface2); border-radius: 2px; overflow: hidden; }}
+  .bar-fill {{ height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }}
+  .bar-val {{ font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 42px; flex-shrink: 0; }}
+  .detail-panel {{ display: none; position: fixed; top: 0; right: 0; width: 380px; height: 100vh; background: var(--surface); border-left: 1px solid var(--border2); z-index: 200; overflow-y: auto; box-shadow: -8px 0 32px rgba(0,0,0,0.5); }}
+  .detail-panel.open {{ display: block; }}
+  .detail-header {{ padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }}
+  .detail-close {{ font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 2px 6px; }}
+  .detail-close:hover {{ color: var(--text); }}
+  .detail-body {{ padding: 20px 24px; }}
+  .detail-section {{ margin-bottom: 24px; }}
+  .detail-section-title {{ font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 12px; }}
+  .new-campus-note {{ font-family: var(--font-mono); font-size: 10px; color: var(--purple); background: rgba(155,127,224,0.08); border: 1px solid rgba(155,127,224,0.2); border-radius: 4px; padding: 6px 10px; margin-bottom: 10px; }}
+  @media (max-width: 900px) {{
+    .main {{ grid-template-columns: 1fr; }}
+    .metrics {{ grid-template-columns: repeat(3, 1fr); }}
+    .header {{ padding: 16px 20px; }}
+    .chart-area {{ padding: 16px 20px; }}
+    .chart-wrap {{ height: 320px; }}
+    .sidebar {{ border-top: 1px solid var(--border); max-height: none; }}
+    .detail-panel {{ width: 100%; }}
+  }}
 </style>
 </head>
 <body>
@@ -87,7 +87,7 @@
 <div class="header">
   <div class="header-left">
     <h1>Academy Campus Prospect Dashboard</h1>
-    <p>%%SUBTITLE%%</p>
+    <p>Density &amp; momentum: Jan&ndash;Mar 2026 vs Jan&ndash;Mar 2025 &nbsp;&middot;&nbsp; Counted from each campus&#8217;s open month &nbsp;&middot;&nbsp; Click any campus for detail &nbsp;&middot;&nbsp; Updated 2026-04-22 11:00</p>
   </div>
   <div class="header-right">
     <button class="tab active" onclick="setChartMode('scatter')" id="tab-scatter">Quadrant view</button>
@@ -105,7 +105,7 @@
     </div>
     <div id="scatter-section">
       <div class="chart-wrap">
-        <canvas id="scatterChart" role="img" aria-label="Scatter plot of prospect density vs momentum per campus."></canvas>
+        <canvas id="scatterChart"></canvas>
         <div id="tooltip"></div>
       </div>
       <div class="chart-note">Bubble size = enrollment &nbsp;·&nbsp; X = prospects per 100 enrolled &nbsp;·&nbsp; Y = avg monthly YoY% &nbsp;·&nbsp; New campuses shown in sidebar only (no YoY available)</div>
@@ -120,7 +120,6 @@
       <div id="barChart"></div>
     </div>
   </div>
-
   <div class="sidebar">
     <div class="sidebar-section"><div class="sidebar-title">Priority — low density + declining</div><div id="list-priority"></div></div>
     <div class="sidebar-section"><div class="sidebar-title">Watch — good density but slipping</div><div id="list-watch"></div></div>
@@ -143,263 +142,280 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const THIS_YEAR  = %%THIS_YEAR%%;
-const PRIOR_YEAR = %%PRIOR_YEAR%%;
-const MONTH_RANGE = '%%MONTH_RANGE%%';
-const MONTH_NAMES = {1:'Jan',2:'Feb',3:'Mar',4:'Apr'};
-const colors = {priority:'#e05a4a', watch:'#e09a3a', growing:'#4a8fe0', healthy:'#4ab07a', new:'#9b7fe0'};
-const quadLabels = {priority:'Priority', watch:'Watch', growing:'Growing', healthy:'Healthy', new:'New campus'};
+const THIS_YEAR  = 2026;
+const PRIOR_YEAR = 2025;
+const MONTH_NAMES = {{1:'Jan',2:'Feb',3:'Mar',4:'Apr'}};
+const colors = {{priority:'#e05a4a', watch:'#e09a3a', growing:'#4a8fe0', healthy:'#4ab07a', new:'#9b7fe0'}};
+const quadLabels = {{priority:'Priority', watch:'Watch', growing:'Growing', healthy:'Healthy', new:'New campus'}};
 
-// ── DATA INJECTED BY generate_dashboard.py ──
-const RAW = %%RAW_DATA%%;
-// ────────────────────────────────────────────
+const RAW = [
+  {"name":"austin","enrollment":0,"openMonth":1,"monthly":{"1":{"y25":0,"y26":91},"2":{"y25":0,"y26":60},"3":{"y25":0,"y26":60},"4":{"y25":0,"y26":42}},"isNew":true},
+  {"name":"bellevue","enrollment":58,"openMonth":1,"monthly":{"1":{"y25":134,"y26":109},"2":{"y25":85,"y26":73},"3":{"y25":139,"y26":139},"4":{"y25":115,"y26":63},"5":{"y25":156,"y26":0},"6":{"y25":151,"y26":0},"7":{"y25":194,"y26":0},"8":{"y25":294,"y26":0},"9":{"y25":380,"y26":0},"10":{"y25":237,"y26":0},"11":{"y25":64,"y26":0},"12":{"y25":54,"y26":0}}},
+  {"name":"cambridge","enrollment":0,"openMonth":2,"monthly":{"2":{"y25":0,"y26":36},"3":{"y25":0,"y26":54},"4":{"y25":0,"y26":28}},"isNew":true},
+  {"name":"fremont","enrollment":23,"openMonth":1,"monthly":{"1":{"y25":105,"y26":82},"2":{"y25":74,"y26":54},"3":{"y25":109,"y26":107},"4":{"y25":107,"y26":78},"5":{"y25":150,"y26":0},"6":{"y25":128,"y26":0},"7":{"y25":125,"y26":0},"8":{"y25":254,"y26":0},"9":{"y25":231,"y26":0},"10":{"y25":177,"y26":0},"11":{"y25":66,"y26":0},"12":{"y25":51,"y26":0}}},
+  {"name":"frisco","enrollment":51,"openMonth":1,"monthly":{"1":{"y25":144,"y26":124},"2":{"y25":143,"y26":88},"3":{"y25":105,"y26":103},"4":{"y25":189,"y26":123},"5":{"y25":177,"y26":0},"6":{"y25":133,"y26":0},"7":{"y25":183,"y26":0},"8":{"y25":389,"y26":0},"9":{"y25":191,"y26":0},"10":{"y25":141,"y26":0},"11":{"y25":90,"y26":0},"12":{"y25":92,"y26":0}}},
+  {"name":"gaithersburg","enrollment":26,"openMonth":1,"monthly":{"1":{"y25":44,"y26":44},"2":{"y25":27,"y26":29},"3":{"y25":36,"y26":39},"4":{"y25":69,"y26":26},"5":{"y25":71,"y26":0},"6":{"y25":63,"y26":0},"7":{"y25":97,"y26":0},"8":{"y25":161,"y26":0},"9":{"y25":153,"y26":0},"10":{"y25":127,"y26":0},"11":{"y25":40,"y26":0},"12":{"y25":35,"y26":0}}},
+  {"name":"irvine","enrollment":41,"openMonth":1,"monthly":{"1":{"y25":74,"y26":85},"2":{"y25":82,"y26":60},"3":{"y25":88,"y26":100},"4":{"y25":66,"y26":71},"5":{"y25":85,"y26":0},"6":{"y25":117,"y26":0},"7":{"y25":112,"y26":0},"8":{"y25":228,"y26":0},"9":{"y25":141,"y26":0},"10":{"y25":81,"y26":0},"11":{"y25":44,"y26":0},"12":{"y25":43,"y26":0}}},
+  {"name":"johnscreek","enrollment":10,"openMonth":1,"monthly":{"1":{"y25":0,"y26":43},"2":{"y25":0,"y26":33},"3":{"y25":8,"y26":34},"4":{"y25":46,"y26":34},"5":{"y25":71,"y26":0},"6":{"y25":63,"y26":0},"7":{"y25":80,"y26":0},"8":{"y25":105,"y26":0},"9":{"y25":163,"y26":0},"10":{"y25":127,"y26":0},"11":{"y25":60,"y26":0},"12":{"y25":30,"y26":0}}},
+  {"name":"lexington","enrollment":49,"openMonth":1,"monthly":{"1":{"y25":99,"y26":96},"2":{"y25":86,"y26":61},"3":{"y25":165,"y26":149},"4":{"y25":137,"y26":93},"5":{"y25":155,"y26":0},"6":{"y25":152,"y26":0},"7":{"y25":172,"y26":0},"8":{"y25":219,"y26":0},"9":{"y25":259,"y26":0},"10":{"y25":135,"y26":0},"11":{"y25":96,"y26":0},"12":{"y25":67,"y26":0}}},
+  {"name":"millburn","enrollment":27,"openMonth":1,"monthly":{"1":{"y25":78,"y26":58},"2":{"y25":112,"y26":53},"3":{"y25":77,"y26":64},"4":{"y25":88,"y26":41},"5":{"y25":106,"y26":0},"6":{"y25":134,"y26":0},"7":{"y25":108,"y26":0},"8":{"y25":166,"y26":0},"9":{"y25":255,"y26":0},"10":{"y25":120,"y26":0},"11":{"y25":55,"y26":0},"12":{"y25":36,"y26":0}}},
+  {"name":"morrisville","enrollment":48,"openMonth":1,"monthly":{"1":{"y25":100,"y26":89},"2":{"y25":84,"y26":66},"3":{"y25":57,"y26":84},"4":{"y25":141,"y26":83},"5":{"y25":154,"y26":0},"6":{"y25":165,"y26":0},"7":{"y25":170,"y26":0},"8":{"y25":217,"y26":0},"9":{"y25":186,"y26":0},"10":{"y25":110,"y26":0},"11":{"y25":65,"y26":0},"12":{"y25":56,"y26":0}}},
+  {"name":"mountainview","enrollment":65,"openMonth":1,"monthly":{"1":{"y25":155,"y26":119},"2":{"y25":104,"y26":63},"3":{"y25":180,"y26":106},"4":{"y25":188,"y26":111},"5":{"y25":239,"y26":0},"6":{"y25":185,"y26":0},"7":{"y25":327,"y26":0},"8":{"y25":419,"y26":0},"9":{"y25":264,"y26":0},"10":{"y25":165,"y26":0},"11":{"y25":80,"y26":0},"12":{"y25":68,"y26":0}}},
+  {"name":"northbrook","enrollment":14,"openMonth":1,"monthly":{"1":{"y25":0,"y26":33},"2":{"y25":0,"y26":18},"3":{"y25":0,"y26":44},"4":{"y25":0,"y26":33},"5":{"y25":65,"y26":0},"6":{"y25":61,"y26":0},"7":{"y25":111,"y26":0},"8":{"y25":120,"y26":0},"9":{"y25":81,"y26":0},"10":{"y25":78,"y26":0},"11":{"y25":40,"y26":0},"12":{"y25":26,"y26":0}},"isNew":true},
+  {"name":"pasadena","enrollment":18,"openMonth":1,"monthly":{"1":{"y25":0,"y26":51},"2":{"y25":0,"y26":34},"3":{"y25":0,"y26":84},"4":{"y25":0,"y26":45},"7":{"y25":88,"y26":0},"8":{"y25":112,"y26":0},"9":{"y25":88,"y26":0},"10":{"y25":72,"y26":0},"11":{"y25":66,"y26":0},"12":{"y25":47,"y26":0}},"isNew":true},
+  {"name":"pleasanton","enrollment":41,"openMonth":1,"monthly":{"1":{"y25":155,"y26":100},"2":{"y25":96,"y26":68},"3":{"y25":120,"y26":129},"4":{"y25":126,"y26":101},"5":{"y25":186,"y26":0},"6":{"y25":132,"y26":0},"7":{"y25":151,"y26":0},"8":{"y25":289,"y26":0},"9":{"y25":145,"y26":0},"10":{"y25":119,"y26":0},"11":{"y25":55,"y26":0},"12":{"y25":69,"y26":0}}},
+  {"name":"portland","enrollment":21,"openMonth":1,"monthly":{"1":{"y25":0,"y26":42},"2":{"y25":0,"y26":26},"3":{"y25":0,"y26":28},"4":{"y25":0,"y26":16},"9":{"y25":1,"y26":0},"11":{"y25":39,"y26":0},"12":{"y25":75,"y26":0}},"isNew":true},
+  {"name":"princeton","enrollment":36,"openMonth":1,"monthly":{"1":{"y25":108,"y26":47},"2":{"y25":135,"y26":53},"3":{"y25":95,"y26":82},"4":{"y25":85,"y26":58},"5":{"y25":98,"y26":0},"6":{"y25":141,"y26":0},"7":{"y25":130,"y26":0},"8":{"y25":171,"y26":0},"9":{"y25":249,"y26":0},"10":{"y25":120,"y26":0},"11":{"y25":57,"y26":0},"12":{"y25":48,"y26":0}}},
+  {"name":"redmond","enrollment":50,"openMonth":1,"monthly":{"1":{"y25":60,"y26":117},"2":{"y25":72,"y26":65},"3":{"y25":102,"y26":106},"4":{"y25":115,"y26":81},"5":{"y25":116,"y26":0},"6":{"y25":126,"y26":0},"7":{"y25":121,"y26":0},"8":{"y25":203,"y26":0},"9":{"y25":239,"y26":0},"10":{"y25":101,"y26":0},"11":{"y25":66,"y26":0},"12":{"y25":51,"y26":0}}},
+  {"name":"sandiego-cv","enrollment":55,"openMonth":1,"monthly":{"1":{"y25":119,"y26":113},"2":{"y25":90,"y26":80},"3":{"y25":118,"y26":121},"4":{"y25":157,"y26":65},"5":{"y25":174,"y26":0},"6":{"y25":104,"y26":0},"7":{"y25":124,"y26":0},"8":{"y25":266,"y26":0},"9":{"y25":128,"y26":0},"10":{"y25":110,"y26":0},"11":{"y25":76,"y26":0},"12":{"y25":58,"y26":0}}},
+  {"name":"sanmateo","enrollment":34,"openMonth":1,"monthly":{"1":{"y25":0,"y26":76},"2":{"y25":0,"y26":70},"3":{"y25":0,"y26":75},"4":{"y25":0,"y26":83},"5":{"y25":47,"y26":0},"6":{"y25":119,"y26":0},"7":{"y25":72,"y26":0},"8":{"y25":139,"y26":0},"9":{"y25":143,"y26":0},"10":{"y25":75,"y26":0},"11":{"y25":76,"y26":0},"12":{"y25":35,"y26":0}},"isNew":true},
+  {"name":"santaclara","enrollment":49,"openMonth":1,"monthly":{"1":{"y25":162,"y26":110},"2":{"y25":118,"y26":83},"3":{"y25":163,"y26":159},"4":{"y25":168,"y26":139},"5":{"y25":216,"y26":0},"6":{"y25":186,"y26":0},"7":{"y25":225,"y26":0},"8":{"y25":386,"y26":0},"9":{"y25":212,"y26":0},"10":{"y25":196,"y26":0},"11":{"y25":172,"y26":0},"12":{"y25":130,"y26":0}}},
+  {"name":"saratoga","enrollment":35,"openMonth":1,"monthly":{"1":{"y25":0,"y26":82},"2":{"y25":0,"y26":60},"3":{"y25":58,"y26":128},"4":{"y25":138,"y26":55},"5":{"y25":182,"y26":0},"6":{"y25":148,"y26":0},"7":{"y25":273,"y26":0},"8":{"y25":418,"y26":0},"9":{"y25":225,"y26":0},"10":{"y25":217,"y26":0},"11":{"y25":175,"y26":0},"12":{"y25":98,"y26":0}}},
+  {"name":"sugarland","enrollment":1,"openMonth":1,"monthly":{"1":{"y25":0,"y26":49},"2":{"y25":0,"y26":37},"3":{"y25":0,"y26":66},"4":{"y25":0,"y26":34}},"isNew":true},
+  {"name":"upperwestside","enrollment":17,"openMonth":1,"monthly":{"1":{"y25":0,"y26":78},"2":{"y25":0,"y26":67},"3":{"y25":0,"y26":62},"4":{"y25":64,"y26":50},"5":{"y25":138,"y26":0},"6":{"y25":130,"y26":0},"7":{"y25":97,"y26":0},"8":{"y25":179,"y26":0},"9":{"y25":264,"y26":0},"10":{"y25":157,"y26":0},"11":{"y25":67,"y26":0},"12":{"y25":44,"y26":0}},"isNew":true},
+  {"name":"vienna","enrollment":19,"openMonth":1,"monthly":{"1":{"y25":66,"y26":48},"2":{"y25":75,"y26":46},"3":{"y25":66,"y26":67},"4":{"y25":78,"y26":53},"5":{"y25":147,"y26":0},"6":{"y25":133,"y26":0},"7":{"y25":178,"y26":0},"8":{"y25":215,"y26":0},"9":{"y25":184,"y26":0},"10":{"y25":163,"y26":0},"11":{"y25":114,"y26":0},"12":{"y25":34,"y26":0}}},
+  {"name":"virtual","enrollment":0,"openMonth":1,"monthly":{"4":{"y25":0,"y26":1}},"isNew":true}
+];
 
-// Compute density and momentum (mirrors Python logic for consistency)
-const campuses = RAW.map(c => {
+const campuses = RAW.map(c => {{
   const validMonths = [1,2,3].filter(m => m >= c.openMonth);
   const p26t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y26||0), 0);
   const p25t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y25||0), 0);
   const density = parseFloat((p26t / c.enrollment * 100).toFixed(2));
-
   let momentum = null;
-  if (!c.isNew) {
+  if (!c.isNew) {{
     const mMonths = validMonths.filter(m => c.monthly[m]?.y25 > 0);
-    if (mMonths.length > 0) {
+    if (mMonths.length > 0) {{
       const pcts = mMonths.map(m => ((c.monthly[m].y26 - c.monthly[m].y25) / c.monthly[m].y25) * 100);
       momentum = parseFloat((pcts.reduce((a,b)=>a+b,0)/pcts.length).toFixed(1));
-    }
-  }
-  return {...c, p26t, p25t, density, momentum, validMonths};
-});
+    }}
+  }}
+  return {{...c, p26t, p25t, density, momentum, validMonths}};
+}});
 
 const established = campuses.filter(c => !c.isNew);
-const avgDensity = (() => {
+const avgDensity = (() => {{
   const sorted = [...established].map(c=>c.density).sort((a,b)=>a-b);
   const n=sorted.length;
   return n%2===0 ? (sorted[n/2-1]+sorted[n/2])/2 : sorted[Math.floor(n/2)];
-})();
+}})();
 
-established.forEach(c => {
+established.forEach(c => {{
   const low = c.density < avgDensity;
   const dec = c.momentum !== null && c.momentum < 0;
   if      (low && dec)   c.quad = 'priority';
   else if (!low && dec)  c.quad = 'watch';
   else if (low && !dec)  c.quad = 'growing';
   else                   c.quad = 'healthy';
-});
+}});
 campuses.filter(c=>c.isNew).forEach(c => c.quad = 'new');
 
 const worstM = established.filter(c=>c.momentum!==null).sort((a,b)=>a.momentum-b.momentum)[0];
 
-// Metrics
 document.getElementById('metrics').innerHTML = `
-  <div class="metric"><div class="metric-label">Median density</div><div class="metric-value">${avgDensity.toFixed(1)}</div><div class="metric-sub">established campuses</div></div>
-  <div class="metric"><div class="metric-label">Total prospects</div><div class="metric-value">${established.reduce((s,c)=>s+c.p26t,0).toLocaleString()}</div><div class="metric-sub">${MONTH_RANGE} ${THIS_YEAR}</div></div>
-  <div class="metric"><div class="metric-label">Priority campuses</div><div class="metric-value" style="color:var(--red)">${established.filter(c=>c.quad==='priority').length}</div><div class="metric-sub">low density + declining</div></div>
-  <div class="metric"><div class="metric-label">Watch campuses</div><div class="metric-value" style="color:var(--amber)">${established.filter(c=>c.quad==='watch').length}</div><div class="metric-sub">good density but slipping</div></div>
-  <div class="metric"><div class="metric-label">Worst momentum</div><div class="metric-value" style="color:var(--red);font-size:18px">${worstM.name}</div><div class="metric-sub">${worstM.momentum}% avg ${MONTH_RANGE} YoY</div></div>
+  <div class="metric"><div class="metric-label">Median density</div><div class="metric-value">${{avgDensity.toFixed(1)}}</div><div class="metric-sub">established campuses</div></div>
+  <div class="metric"><div class="metric-label">Total prospects</div><div class="metric-value">${{established.reduce((s,c)=>s+c.p26t,0).toLocaleString()}}</div><div class="metric-sub">Jan–Mar 2026</div></div>
+  <div class="metric"><div class="metric-label">Priority campuses</div><div class="metric-value" style="color:var(--red)">${{established.filter(c=>c.quad==='priority').length}}</div><div class="metric-sub">low density + declining</div></div>
+  <div class="metric"><div class="metric-label">Watch campuses</div><div class="metric-value" style="color:var(--amber)">${{established.filter(c=>c.quad==='watch').length}}</div><div class="metric-sub">good density but slipping</div></div>
+  <div class="metric"><div class="metric-label">Worst momentum</div><div class="metric-value" style="color:var(--red);font-size:18px">${{worstM.name}}</div><div class="metric-sub">${{worstM.momentum}}% avg Jan–Mar YoY</div></div>
 `;
 
-// Sparkline
-function sparklineSVG(c) {
+function sparklineSVG(c) {{
   const col = colors[c.quad];
   const months = c.validMonths.filter(m => c.monthly[m]?.y25 > 0);
   if (months.length < 2) return '<svg width="58" height="20"></svg>';
   const pcts = months.map(m => ((c.monthly[m].y26 - c.monthly[m].y25) / c.monthly[m].y25) * 100);
   const minV=Math.min(...pcts,-5), maxV=Math.max(...pcts,5), range=maxV-minV||1;
-  const pts = pcts.map((v,i) => `${(i/(pcts.length-1))*54+2},${18-((v-minV)/range)*16}`);
+  const pts = pcts.map((v,i) => `${{(i/(pcts.length-1))*54+2}},${{18-((v-minV)/range)*16}}`);
   const zY = 18 - ((0-minV)/range)*16;
-  return `<svg width="58" height="20" style="overflow:visible"><line x1="2" y1="${zY.toFixed(1)}" x2="56" y2="${zY.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/><polyline points="${pts.join(' ')}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/><circle cx="${pts[pts.length-1].split(',')[0]}" cy="${pts[pts.length-1].split(',')[1]}" r="2.5" fill="${col}"/></svg>`;
-}
+  return `<svg width="58" height="20" style="overflow:visible"><line x1="2" y1="${{zY.toFixed(1)}}" x2="56" y2="${{zY.toFixed(1)}}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/><polyline points="${{pts.join(' ')}}" fill="none" stroke="${{col}}" stroke-width="1.5" stroke-linejoin="round"/><circle cx="${{pts[pts.length-1].split(',')[0]}}" cy="${{pts[pts.length-1].split(',')[1]}}" r="2.5" fill="${{col}}"/></svg>`;
+}}
 
-function campusRowHTML(c) {
+function campusRowHTML(c) {{
   const mStr = c.momentum !== null ? (c.momentum>=0?'+':'')+c.momentum+'%' : '—';
   const mCol = c.momentum === null ? 'var(--text-dim)' : (c.momentum>=0 ? 'var(--green)' : 'var(--red)');
-  return `<div class="campus-row" onclick="openDetail('${c.name}')">
-    <div class="campus-name">${c.name}</div>
+  return `<div class="campus-row" onclick="openDetail('${{c.name}}')">
+    <div class="campus-name">${{c.name}}</div>
     <div class="campus-stats">
-      <div class="campus-stat-row"><span class="stat-label">density</span><span style="color:var(--text)">${c.density.toFixed(1)}</span></div>
-      <div class="campus-stat-row"><span class="stat-label">momentum</span><span style="color:${mCol}">${mStr}</span></div>
+      <div class="campus-stat-row"><span class="stat-label">density</span><span style="color:var(--text)">${{c.density.toFixed(1)}}</span></div>
+      <div class="campus-stat-row"><span class="stat-label">momentum</span><span style="color:${{mCol}}">${{mStr}}</span></div>
     </div>
-    <div style="width:58px;flex-shrink:0">${sparklineSVG(c)}</div>
+    <div style="width:58px;flex-shrink:0">${{sparklineSVG(c)}}</div>
   </div>`;
-}
+}}
 
-['priority','watch','growing','healthy'].forEach(q => {
+['priority','watch','growing','healthy'].forEach(q => {{
   const list = established.filter(c=>c.quad===q).sort((a,b)=>a.density-b.density);
   document.getElementById('list-'+q).innerHTML = list.map(campusRowHTML).join('');
-});
+}});
 
 const newCampuses = campuses.filter(c=>c.isNew).sort((a,b)=>b.density-a.density);
 const maxNewDensity = Math.max(...newCampuses.map(c=>c.density), 1);
 document.getElementById('list-new').innerHTML =
-  `<div class="new-campus-note">No ${MONTH_RANGE} ${PRIOR_YEAR} baseline — density only</div>` +
-  newCampuses.map(c => `<div class="campus-row" onclick="openDetail('${c.name}')">
-    <div class="campus-name">${c.name}</div>
+  `<div class="new-campus-note">No Jan–Mar 2025 baseline — density only</div>` +
+  newCampuses.map(c => `<div class="campus-row" onclick="openDetail('${{c.name}}')">
+    <div class="campus-name">${{c.name}}</div>
     <div class="campus-stats">
-      <div class="campus-stat-row"><span class="stat-label">density</span><span style="color:var(--purple)">${c.density.toFixed(1)}</span></div>
-      <div class="campus-stat-row"><span class="stat-label">prospects</span><span style="color:var(--text-muted)">${c.p26t} ${MONTH_RANGE}</span></div>
+      <div class="campus-stat-row"><span class="stat-label">density</span><span style="color:var(--purple)">${{c.density.toFixed(1)}}</span></div>
+      <div class="campus-stat-row"><span class="stat-label">prospects</span><span style="color:var(--text-muted)">${{c.p26t}} Jan–Mar</span></div>
     </div>
-    <div style="width:58px;flex-shrink:0"><svg width="58" height="20"><rect x="2" y="5" width="${(c.density/maxNewDensity*54).toFixed(1)}" height="10" fill="#9b7fe0" opacity="0.6" rx="1"/></svg></div>
+    <div style="width:58px;flex-shrink:0"><svg width="58" height="20"><rect x="2" y="5" width="${{(c.density/maxNewDensity*54).toFixed(1)}}" height="10" fill="#9b7fe0" opacity="0.6" rx="1"/></svg></div>
   </div>`).join('');
 
-// Bar
 let barView='density';
-function setBarView(v){
+function setBarView(v){{
   barView=v;
   document.querySelectorAll('.vtab').forEach(b=>b.classList.remove('active'));
   document.getElementById('vt-'+v).classList.add('active');
   renderBar();
-}
-function renderBar(){
-  const all = campuses;
+}}
+function renderBar(){{
+  const all=campuses;
   let sorted,getValue,maxVal,labelFn,colorFn;
-  if(barView==='density'){
+  if(barView==='density'){{
     sorted=[...all].sort((a,b)=>b.density-a.density);
     getValue=c=>c.density;maxVal=Math.max(...all.map(c=>c.density));
     labelFn=v=>v.toFixed(1);colorFn=c=>colors[c.quad];
-  } else if(barView==='momentum'){
+  }} else if(barView==='momentum'){{
     sorted=[...established].filter(c=>c.momentum!==null).sort((a,b)=>b.momentum-a.momentum);
     getValue=c=>c.momentum;maxVal=Math.max(...sorted.map(c=>Math.abs(c.momentum)));
     labelFn=v=>(v>=0?'+':'')+v+'%';colorFn=c=>c.momentum>=0?'#4ab07a':'#e05a4a';
-  } else if(barView==='prospects'){
+  }} else if(barView==='prospects'){{
     sorted=[...all].sort((a,b)=>b.p26t-a.p26t);
     getValue=c=>c.p26t;maxVal=Math.max(...all.map(c=>c.p26t));
     labelFn=v=>v;colorFn=c=>colors[c.quad];
-  } else {
+  }} else {{
     sorted=[...all].sort((a,b)=>b.enrollment-a.enrollment);
     getValue=c=>c.enrollment;maxVal=Math.max(...all.map(c=>c.enrollment));
     labelFn=v=>v.toLocaleString();colorFn=()=>'#4a5568';
-  }
-  document.getElementById('barChart').innerHTML=sorted.map((c,i)=>{
+  }}
+  document.getElementById('barChart').innerHTML=sorted.map((c,i)=>{{
     const val=getValue(c);const pct=barView==='momentum'?(Math.abs(val)/maxVal*100):(val/maxVal*100);
-    return `<div class="bar-row" style="animation-delay:${i*0.02}s"><div class="bar-label">${c.name}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${colorFn(c)};opacity:0.8"></div></div><div class="bar-val" style="color:${colorFn(c)}">${labelFn(val)}</div></div>`;
-  }).join('');
-}
+    return `<div class="bar-row" style="animation-delay:${{i*0.02}}s"><div class="bar-label">${{c.name}}</div><div class="bar-track"><div class="bar-fill" style="width:${{pct}}%;background:${{colorFn(c)}};opacity:0.8"></div></div><div class="bar-val" style="color:${{colorFn(c)}}">${{labelFn(val)}}</div></div>`;
+  }}).join('');
+}}
 
-// Detail panel
-function openDetail(name){
+function openDetail(name){{
   const c=campuses.find(x=>x.name===name);if(!c)return;
   document.getElementById('detail-name').textContent=c.name;
   const dq=document.getElementById('detail-quad');
-  const quadText = c.isNew ? 'New campus — density only' : `${quadLabels[c.quad]} · density ${c.density.toFixed(1)} · momentum ${c.momentum!==null?(c.momentum>=0?'+':'')+c.momentum+'%':'n/a'}`;
+  const quadText=c.isNew?'New campus — density only':`${{quadLabels[c.quad]}} · density ${{c.density.toFixed(1)}} · momentum ${{c.momentum!==null?(c.momentum>=0?'+':'')+c.momentum+'%':'n/a'}}`;
   dq.textContent=quadText;dq.style.color=colors[c.quad];
 
   const allMonths=[1,2,3,4].filter(m=>c.monthly[m]&&(c.monthly[m].y25>0||c.monthly[m].y26>0));
   const maxP=Math.max(...allMonths.flatMap(m=>[c.monthly[m]?.y25||0,c.monthly[m]?.y26||0]),1);
 
-  const monthRows=allMonths.map(m=>{
-    const d=c.monthly[m]||{y25:0,y26:0};
-    const usedMark = c.validMonths.includes(m) ? ' <span style="color:var(--text-dim);font-size:9px">✓</span>' : '';
-    const partialMark = m===4 ? ' <span style="color:var(--text-dim);font-size:9px">(partial)</span>' : '';
+  const monthRows=allMonths.map(m=>{{
+    const d=c.monthly[m]||{{y25:0,y26:0}};
+    const usedMark=c.validMonths.includes(m)?' <span style="color:var(--text-dim);font-size:9px">✓</span>':'';
+    const partialMark=m===4?' <span style="color:var(--text-dim);font-size:9px">(partial)</span>':'';
     let pctStr='—',pctColor='var(--text-dim)';
-    if(d.y25>0){const p=((d.y26-d.y25)/d.y25*100).toFixed(1);pctStr=(parseFloat(p)>=0?'+':'')+p+'%';pctColor=parseFloat(p)>=0?'#4ab07a':'#e05a4a';}
+    if(d.y25>0){{const p=((d.y26-d.y25)/d.y25*100).toFixed(1);pctStr=(parseFloat(p)>=0?'+':'')+p+'%';pctColor=parseFloat(p)>=0?'#4ab07a':'#e05a4a';}}
     return `<div style="margin-bottom:12px">
       <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-bottom:5px">
-        <span style="color:var(--text-muted)">${MONTH_NAMES[m]}${usedMark}${partialMark}</span>
-        <span style="color:${pctColor}">${pctStr}</span>
+        <span style="color:var(--text-muted)">${{MONTH_NAMES[m]}}${{usedMark}}${{partialMark}}</span>
+        <span style="color:${{pctColor}}">${{pctStr}}</span>
       </div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
-        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);width:24px">${PRIOR_YEAR}</span>
-        <div style="flex:1;height:8px;background:var(--surface2);border-radius:1px;overflow:hidden"><div style="width:${(d.y25/maxP*100).toFixed(1)}%;height:100%;background:rgba(255,255,255,0.15);border-radius:1px"></div></div>
-        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);width:24px;text-align:right">${d.y25}</span>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);width:24px">2025</span>
+        <div style="flex:1;height:8px;background:var(--surface2);border-radius:1px;overflow:hidden"><div style="width:${{(d.y25/maxP*100).toFixed(1)}}%;height:100%;background:rgba(255,255,255,0.15);border-radius:1px"></div></div>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);width:24px;text-align:right">${{d.y25}}</span>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);width:24px">${THIS_YEAR}</span>
-        <div style="flex:1;height:8px;background:var(--surface2);border-radius:1px;overflow:hidden"><div style="width:${(d.y26/maxP*100).toFixed(1)}%;height:100%;background:${colors[c.quad]};opacity:0.75;border-radius:1px"></div></div>
-        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text);width:24px;text-align:right">${d.y26}</span>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);width:24px">2026</span>
+        <div style="flex:1;height:8px;background:var(--surface2);border-radius:1px;overflow:hidden"><div style="width:${{(d.y26/maxP*100).toFixed(1)}}%;height:100%;background:${{colors[c.quad]}};opacity:0.75;border-radius:1px"></div></div>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text);width:24px;text-align:right">${{d.y26}}</span>
       </div>
     </div>`;
-  }).join('');
+  }}).join('');
 
   const yoyTotal=c.p25t>0?((c.p26t-c.p25t)/c.p25t*100).toFixed(1):null;
   const yoyCol=yoyTotal===null?'var(--text-dim)':(parseFloat(yoyTotal)>=0?'#4ab07a':'#e05a4a');
-  const newNote = c.isNew ? `<div class="new-campus-note" style="margin-bottom:16px">New campus — no ${MONTH_RANGE} ${PRIOR_YEAR} baseline for YoY comparison</div>` : '';
+  const newNote=c.isNew?`<div class="new-campus-note" style="margin-bottom:16px">New campus — no Jan–Mar 2025 baseline for YoY comparison</div>`:'';
 
-  document.getElementById('detail-body').innerHTML=`${newNote}
-    <div class="detail-section"><div class="detail-section-title">Monthly breakdown (✓ = counted toward density)</div>${monthRows}</div>
+  document.getElementById('detail-body').innerHTML=`${{newNote}}
+    <div class="detail-section"><div class="detail-section-title">Monthly breakdown (✓ = counted toward density)</div>${{monthRows}}</div>
     <div class="detail-section"><div class="detail-section-title">Summary</div>
       <div style="font-family:var(--font-mono);font-size:11px;line-height:2.2">
-        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Enrollment</span><span>${c.enrollment.toLocaleString()}</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Counted months</span><span>${c.validMonths.map(m=>MONTH_NAMES[m]).join(', ')}</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Prospects (counted months)</span><span>${c.p26t}</span></div>
-        ${c.p25t>0?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">${PRIOR_YEAR} same months</span><span>${c.p25t}</span></div>`:''}
-        ${yoyTotal!==null?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">YoY total</span><span style="color:${yoyCol}">${parseFloat(yoyTotal)>=0?'+':''}${yoyTotal}%</span></div>`:''}
-        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Density</span><span>${c.density.toFixed(1)} per 100 enrolled</span></div>
-        ${!c.isNew?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Network median density</span><span>${avgDensity.toFixed(1)}</span></div>`:''}
-        ${c.momentum!==null?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Momentum (avg monthly)</span><span style="color:${c.momentum>=0?'#4ab07a':'#e05a4a'}">${(c.momentum>=0?'+':'')+c.momentum}%</span></div>`:''}
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Enrollment</span><span>${{c.enrollment.toLocaleString()}}</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Counted months</span><span>${{c.validMonths.map(m=>MONTH_NAMES[m]).join(', ')}}</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Prospects (counted months)</span><span>${{c.p26t}}</span></div>
+        ${{c.p25t>0?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">2025 same months</span><span>${{c.p25t}}</span></div>`:''}}
+        ${{yoyTotal!==null?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">YoY total</span><span style="color:${{yoyCol}}">${{parseFloat(yoyTotal)>=0?'+':''}}${{yoyTotal}}%</span></div>`:''}}
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Density</span><span>${{c.density.toFixed(1)}} per 100 enrolled</span></div>
+        ${{!c.isNew?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Network median density</span><span>${{avgDensity.toFixed(1)}}</span></div>`:''}}
+        ${{c.momentum!==null?`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Momentum (avg monthly)</span><span style="color:${{c.momentum>=0?'#4ab07a':'#e05a4a'}}">${{(c.momentum>=0?'+':'')+c.momentum}}%</span></div>`:''}}
       </div>
     </div>`;
   document.getElementById('detail-panel').classList.add('open');
-}
-function closeDetail(){document.getElementById('detail-panel').classList.remove('open');}
+}}
+function closeDetail(){{document.getElementById('detail-panel').classList.remove('open');}}
 
 let chartMode='scatter';
-function setChartMode(mode){
+function setChartMode(mode){{
   chartMode=mode;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+mode).classList.add('active');
-  if(mode==='scatter'){document.getElementById('scatter-section').style.display='';document.getElementById('bar-section').style.display='none';buildScatter();}
-  else{document.getElementById('scatter-section').style.display='none';document.getElementById('bar-section').style.display='';renderBar();}
-}
+  if(mode==='scatter'){{document.getElementById('scatter-section').style.display='';document.getElementById('bar-section').style.display='none';buildScatter();}}
+  else{{document.getElementById('scatter-section').style.display='none';document.getElementById('bar-section').style.display='';renderBar();}}
+}}
 
 document.getElementById('legend-box').innerHTML=[
-  {c:'#e05a4a',l:'Priority'},{c:'#e09a3a',l:'Watch'},{c:'#4a8fe0',l:'Growing'},{c:'#4ab07a',l:'Healthy'},{c:'#9b7fe0',l:'New campus'}
-].map(x=>`<span class="legend-item"><span class="legend-dot" style="background:${x.c}"></span>${x.l}</span>`).join('');
+  {{c:'#e05a4a',l:'Priority'}},{{c:'#e09a3a',l:'Watch'}},{{c:'#4a8fe0',l:'Growing'}},{{c:'#4ab07a',l:'Healthy'}},{{c:'#9b7fe0',l:'New campus'}}
+].map(x=>`<span class="legend-item"><span class="legend-dot" style="background:${{x.c}}"></span>${{x.l}}</span>`).join('');
 
-// Scatter (established only)
-let scatterChart = null;
-function buildScatter() {
-  if (scatterChart) scatterChart.destroy();
-  const cWM = established.filter(c=>c.momentum!==null);
-  scatterChart = new Chart(document.getElementById('scatterChart'), {
+let scatterChart=null;
+function buildScatter(){{
+  if(scatterChart)scatterChart.destroy();
+  const cWM=established.filter(c=>c.momentum!==null);
+  scatterChart=new Chart(document.getElementById('scatterChart'),{{
     type:'bubble',
-    data:{datasets:cWM.map(c=>({label:c.name,data:[{x:c.density,y:c.momentum,r:Math.max(7,Math.sqrt(c.enrollment)*0.38)}],backgroundColor:colors[c.quad]+'bb',borderColor:colors[c.quad],borderWidth:1.5}))},
-    options:{
+    data:{{datasets:cWM.map(c=>({label:c.name,data:[{{x:c.density,y:c.momentum,r:Math.max(7,Math.sqrt(c.enrollment)*0.38)}}],backgroundColor:colors[c.quad]+'bb',borderColor:colors[c.quad],borderWidth:1.5}))}},
+    options:{{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{enabled:false}},
-      scales:{
-        x:{title:{display:true,text:'Density: prospects per 100 enrolled (Jan–Mar) — median threshold',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'}},min:0},
-        y:{title:{display:true,text:'Momentum: avg monthly YoY % (Jan–Mar)',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'},callback:v=>v+'%'}}
-      },
-      animation:{duration:400}
-    },
-    plugins:[{id:'quad',afterDraw(chart){
-      const{ctx,scales:{x,y}}=chart;
-      const mX=x.getPixelForValue(avgDensity), mY=y.getPixelForValue(0);
+      plugins:{{legend:{{display:false}},tooltip:{{enabled:false}}}},
+      scales:{{
+        x:{{title:{{display:true,text:'Density: prospects per 100 enrolled (Jan–Mar) — median threshold',color:'#555',font:{{size:10,family:'DM Mono'}}}},grid:{{color:'rgba(255,255,255,0.04)'}},ticks:{{color:'#555',font:{{size:10,family:'DM Mono'}}}},min:0}},
+        y:{{title:{{display:true,text:'Momentum: avg monthly YoY % (Jan–Mar)',color:'#555',font:{{size:10,family:'DM Mono'}}}},grid:{{color:'rgba(255,255,255,0.04)'}},ticks:{{color:'#555',font:{{size:10,family:'DM Mono'}},callback:v=>v+'%'}}}}
+      }},
+      animation:{{duration:400}}
+    }},
+    plugins:[{{id:'quad',afterDraw(chart){{
+      const{{ctx,scales:{{x,y}}}}=chart;
+      const mX=x.getPixelForValue(avgDensity),mY=y.getPixelForValue(0);
       ctx.save();
       ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;
       ctx.beginPath();ctx.moveTo(mX,y.top);ctx.lineTo(mX,y.bottom);ctx.stroke();
       ctx.beginPath();ctx.moveTo(x.left,mY);ctx.lineTo(x.right,mY);ctx.stroke();
       ctx.setLineDash([]);
-      [{t:'PRIORITY',px:x.left+8,py:y.bottom-8,c:'rgba(224,90,74,0.4)'},{t:'WATCH',px:mX+8,py:y.bottom-8,c:'rgba(224,154,58,0.4)'},{t:'GROWING',px:x.left+8,py:y.top+14,c:'rgba(74,143,224,0.4)'},{t:'HEALTHY',px:mX+8,py:y.top+14,c:'rgba(74,176,122,0.4)'}]
-        .forEach(q=>{ctx.font='9px DM Mono,monospace';ctx.fillStyle=q.c;ctx.fillText(q.t,q.px,q.py);});
-      cWM.forEach((c,i)=>{
+      [{{t:'PRIORITY',px:x.left+8,py:y.bottom-8,c:'rgba(224,90,74,0.4)'}},{{t:'WATCH',px:mX+8,py:y.bottom-8,c:'rgba(224,154,58,0.4)'}},{{t:'GROWING',px:x.left+8,py:y.top+14,c:'rgba(74,143,224,0.4)'}},{{t:'HEALTHY',px:mX+8,py:y.top+14,c:'rgba(74,176,122,0.4)'}}]
+        .forEach(q=>{{ctx.font='9px DM Mono,monospace';ctx.fillStyle=q.c;ctx.fillText(q.t,q.px,q.py);}});
+      cWM.forEach((c,i)=>{{
         const meta=chart.getDatasetMeta(i);if(!meta.data[0])return;
         const el=meta.data[0];ctx.font='10px DM Mono,monospace';ctx.fillStyle=colors[c.quad];ctx.textAlign='center';
         ctx.fillText(c.name,el.x,el.y-el.options.radius-5);
-      });
+      }});
       ctx.restore();
-    }}]
-  });
+    }}}}]
+  }});
   const tip=document.getElementById('tooltip');
   const cv=document.getElementById('scatterChart');
-  cv.addEventListener('mousemove',e=>{
-    const pts=scatterChart.getElementsAtEventForMode(e,'nearest',{intersect:true},true);
-    if(pts.length){
+  cv.addEventListener('mousemove',e=>{{
+    const pts=scatterChart.getElementsAtEventForMode(e,'nearest',{{intersect:true}},true);
+    if(pts.length){{
       const c=cWM[pts[0].datasetIndex];
       const mCol=c.momentum>=0?'#4ab07a':'#e05a4a';
-      const lines=c.validMonths.filter(m=>c.monthly[m]?.y25>0).map(m=>{
+      const lines=c.validMonths.filter(m=>c.monthly[m]?.y25>0).map(m=>{{
         const d=c.monthly[m];const p=((d.y26-d.y25)/d.y25*100).toFixed(1);
         const pc=parseFloat(p)>=0?'#4ab07a':'#e05a4a';
-        return `${MONTH_NAMES[m]}: ${d.y25}→${d.y26} <span style="color:${pc}">(${parseFloat(p)>=0?'+':''}${p}%)</span>`;
-      }).join('<br>');
+        return `${{MONTH_NAMES[m]}}: ${{d.y25}}→${{d.y26}} <span style="color:${{pc}}">(${parseFloat(p)>=0?'+':''}${{p}}%)</span>`;
+      }}).join('<br>');
       tip.style.display='block';tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY-10)+'px';
-      tip.innerHTML=`<strong>${c.name}</strong>Density: ${c.density.toFixed(1)} per 100 enrolled<br>Prospects: ${c.p26t} vs ${c.p25t} in ${PRIOR_YEAR}<br>Momentum: <span style="color:${mCol}">${(c.momentum>=0?'+':'')+c.momentum}%</span><br><span style="color:var(--text-dim);font-size:10px">──────────────────</span><br>${lines}`;
-    } else tip.style.display='none';
-  });
-  cv.addEventListener('mouseleave',()=>{tip.style.display='none';});
-}
+      tip.innerHTML=`<strong>${{c.name}}</strong>Density: ${{c.density.toFixed(1)}} per 100 enrolled<br>Prospects: ${{c.p26t}} vs ${{c.p25t}} in 2025<br>Momentum: <span style="color:${{mCol}}">${{(c.momentum>=0?'+':'')+c.momentum}}%</span><br><span style="color:var(--text-dim);font-size:10px">──────────────────</span><br>${{lines}}`;
+    }} else tip.style.display='none';
+  }});
+  cv.addEventListener('mouseleave',()=>{{tip.style.display='none';}});
+}}
 
 buildScatter();
 </script>
