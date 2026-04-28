@@ -87,7 +87,7 @@
 <div class="header">
   <div class="header-left">
     <h1>Academy Campus Prospect Dashboard</h1>
-    <p id="header-sub">Density &amp; momentum: ##MONTH_RANGE## ##THIS_YEAR## vs ##MONTH_RANGE## ##PRIOR_YEAR## &nbsp;&middot;&nbsp; Counted from each campus&#8217;s open month &nbsp;&middot;&nbsp; Click any campus for detail &nbsp;&middot;&nbsp; Updated ##UPDATED_AT##</p>
+    <p id="header-sub">Density &amp; momentum: Jan–Mar 2026 vs Jan–Mar 2025 &nbsp;&middot;&nbsp; Counted from each campus&#8217;s open month &nbsp;&middot;&nbsp; Click any campus for detail &nbsp;&middot;&nbsp; Updated 2026-04-28 03:02 UTC</p>
   </div>
   <div class="header-right">
     <button class="tab active" onclick="setChartMode('scatter')" id="tab-scatter">Quadrant view</button>
@@ -146,10 +146,37 @@ const MONTH_NAMES = {1:'Jan',2:'Feb',3:'Mar',4:'Apr'};
 const colors = {priority:'#e05a4a', watch:'#e09a3a', growing:'#4a8fe0', healthy:'#4ab07a', new:'#9b7fe0'};
 const quadLabels = {priority:'Priority', watch:'Watch', growing:'Growing', healthy:'Healthy', new:'New campus'};
 
-const RAW = ##RAW_DATA##;
+const RAW = [
+  {name:'austin', enrollment:0, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:91}, 2:{y25:0,y26:60}, 3:{y25:0,y26:60}, 4:{y25:0,y26:51}}},
+  {name:'bellevue', enrollment:1473, openMonth:1, monthly:{1:{y25:134,y26:109}, 2:{y25:85,y26:73}, 3:{y25:139,y26:139}, 4:{y25:115,y26:82}, 5:{y25:156,y26:0}, 6:{y25:151,y26:0}, 7:{y25:194,y26:0}, 8:{y25:294,y26:0}, 9:{y25:380,y26:0}, 10:{y25:237,y26:0}, 11:{y25:64,y26:0}, 12:{y25:54,y26:0}}},
+  {name:'cambridge', enrollment:0, openMonth:2, isNew:true, monthly:{2:{y25:0,y26:36}, 3:{y25:0,y26:54}, 4:{y25:0,y26:29}, 9:{y25:1,y26:0}}},
+  {name:'fremont', enrollment:1091, openMonth:1, monthly:{1:{y25:105,y26:82}, 2:{y25:74,y26:54}, 3:{y25:109,y26:107}, 4:{y25:107,y26:89}, 5:{y25:150,y26:0}, 6:{y25:128,y26:0}, 7:{y25:125,y26:0}, 8:{y25:253,y26:0}, 9:{y25:231,y26:0}, 10:{y25:177,y26:0}, 11:{y25:66,y26:0}, 12:{y25:51,y26:0}}},
+  {name:'frisco', enrollment:1567, openMonth:1, monthly:{1:{y25:144,y26:124}, 2:{y25:143,y26:88}, 3:{y25:105,y26:103}, 4:{y25:189,y26:153}, 5:{y25:177,y26:0}, 6:{y25:133,y26:0}, 7:{y25:182,y26:0}, 8:{y25:389,y26:0}, 9:{y25:191,y26:0}, 10:{y25:141,y26:0}, 11:{y25:90,y26:0}, 12:{y25:92,y26:0}}},
+  {name:'gaithersburg', enrollment:713, openMonth:1, monthly:{1:{y25:44,y26:44}, 2:{y25:27,y26:29}, 3:{y25:36,y26:39}, 4:{y25:69,y26:31}, 5:{y25:71,y26:0}, 6:{y25:63,y26:0}, 7:{y25:97,y26:0}, 8:{y25:161,y26:0}, 9:{y25:153,y26:0}, 10:{y25:127,y26:0}, 11:{y25:40,y26:0}, 12:{y25:35,y26:0}}},
+  {name:'irvine', enrollment:682, openMonth:1, monthly:{1:{y25:74,y26:85}, 2:{y25:82,y26:60}, 3:{y25:88,y26:100}, 4:{y25:66,y26:93}, 5:{y25:85,y26:0}, 6:{y25:117,y26:0}, 7:{y25:112,y26:0}, 8:{y25:228,y26:0}, 9:{y25:141,y26:0}, 10:{y25:81,y26:0}, 11:{y25:44,y26:0}, 12:{y25:43,y26:0}}},
+  {name:'johnscreek', enrollment:150, openMonth:1, monthly:{1:{y25:0,y26:43}, 2:{y25:0,y26:33}, 3:{y25:8,y26:34}, 4:{y25:46,y26:41}, 5:{y25:71,y26:0}, 6:{y25:63,y26:0}, 7:{y25:80,y26:0}, 8:{y25:105,y26:0}, 9:{y25:163,y26:0}, 10:{y25:127,y26:0}, 11:{y25:60,y26:0}, 12:{y25:30,y26:0}}},
+  {name:'lexington', enrollment:1474, openMonth:1, monthly:{1:{y25:99,y26:96}, 2:{y25:86,y26:61}, 3:{y25:165,y26:149}, 4:{y25:137,y26:110}, 5:{y25:155,y26:0}, 6:{y25:152,y26:0}, 7:{y25:172,y26:0}, 8:{y25:219,y26:0}, 9:{y25:258,y26:0}, 10:{y25:135,y26:0}, 11:{y25:96,y26:0}, 12:{y25:67,y26:0}}},
+  {name:'millburn', enrollment:581, openMonth:1, monthly:{1:{y25:78,y26:58}, 2:{y25:112,y26:53}, 3:{y25:77,y26:64}, 4:{y25:88,y26:48}, 5:{y25:106,y26:0}, 6:{y25:134,y26:0}, 7:{y25:108,y26:0}, 8:{y25:166,y26:0}, 9:{y25:255,y26:0}, 10:{y25:120,y26:0}, 11:{y25:55,y26:0}, 12:{y25:36,y26:0}}},
+  {name:'morrisville', enrollment:1443, openMonth:1, monthly:{1:{y25:100,y26:89}, 2:{y25:84,y26:66}, 3:{y25:57,y26:84}, 4:{y25:141,y26:96}, 5:{y25:154,y26:0}, 6:{y25:165,y26:0}, 7:{y25:170,y26:0}, 8:{y25:217,y26:0}, 9:{y25:186,y26:0}, 10:{y25:110,y26:0}, 11:{y25:65,y26:0}, 12:{y25:56,y26:0}}},
+  {name:'mountainview', enrollment:1264, openMonth:1, monthly:{1:{y25:155,y26:119}, 2:{y25:104,y26:63}, 3:{y25:180,y26:106}, 4:{y25:188,y26:131}, 5:{y25:239,y26:0}, 6:{y25:185,y26:0}, 7:{y25:327,y26:0}, 8:{y25:419,y26:0}, 9:{y25:264,y26:0}, 10:{y25:165,y26:0}, 11:{y25:80,y26:0}, 12:{y25:68,y26:0}}},
+  {name:'northbrook', enrollment:240, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:33}, 2:{y25:0,y26:18}, 3:{y25:0,y26:44}, 4:{y25:0,y26:45}, 5:{y25:65,y26:0}, 6:{y25:61,y26:0}, 7:{y25:111,y26:0}, 8:{y25:120,y26:0}, 9:{y25:81,y26:0}, 10:{y25:78,y26:0}, 11:{y25:40,y26:0}, 12:{y25:26,y26:0}}},
+  {name:'pasadena', enrollment:131, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:51}, 2:{y25:0,y26:34}, 3:{y25:0,y26:84}, 4:{y25:0,y26:53}, 7:{y25:88,y26:0}, 8:{y25:112,y26:0}, 9:{y25:88,y26:0}, 10:{y25:72,y26:0}, 11:{y25:66,y26:0}, 12:{y25:47,y26:0}}},
+  {name:'pleasanton', enrollment:1611, openMonth:1, monthly:{1:{y25:155,y26:100}, 2:{y25:96,y26:68}, 3:{y25:120,y26:129}, 4:{y25:126,y26:131}, 5:{y25:186,y26:0}, 6:{y25:132,y26:0}, 7:{y25:151,y26:0}, 8:{y25:289,y26:0}, 9:{y25:145,y26:0}, 10:{y25:119,y26:0}, 11:{y25:55,y26:0}, 12:{y25:69,y26:0}}},
+  {name:'portland', enrollment:47, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:42}, 2:{y25:0,y26:26}, 3:{y25:0,y26:28}, 4:{y25:0,y26:20}, 9:{y25:1,y26:0}, 11:{y25:39,y26:0}, 12:{y25:75,y26:0}}},
+  {name:'princeton', enrollment:1171, openMonth:1, monthly:{1:{y25:108,y26:47}, 2:{y25:135,y26:53}, 3:{y25:95,y26:82}, 4:{y25:85,y26:73}, 5:{y25:98,y26:0}, 6:{y25:141,y26:0}, 7:{y25:130,y26:0}, 8:{y25:171,y26:0}, 9:{y25:249,y26:0}, 10:{y25:120,y26:0}, 11:{y25:57,y26:0}, 12:{y25:48,y26:0}}},
+  {name:'redmond', enrollment:731, openMonth:1, monthly:{1:{y25:60,y26:117}, 2:{y25:72,y26:65}, 3:{y25:102,y26:106}, 4:{y25:115,y26:99}, 5:{y25:116,y26:0}, 6:{y25:126,y26:0}, 7:{y25:121,y26:0}, 8:{y25:202,y26:0}, 9:{y25:239,y26:0}, 10:{y25:101,y26:0}, 11:{y25:66,y26:0}, 12:{y25:51,y26:0}}},
+  {name:'sandiego-cv', enrollment:1801, openMonth:1, monthly:{1:{y25:119,y26:113}, 2:{y25:90,y26:80}, 3:{y25:118,y26:121}, 4:{y25:157,y26:86}, 5:{y25:174,y26:0}, 6:{y25:104,y26:0}, 7:{y25:124,y26:0}, 8:{y25:266,y26:0}, 9:{y25:128,y26:0}, 10:{y25:110,y26:0}, 11:{y25:76,y26:0}, 12:{y25:58,y26:0}}},
+  {name:'sanmateo', enrollment:331, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:76}, 2:{y25:0,y26:70}, 3:{y25:0,y26:75}, 4:{y25:0,y26:93}, 5:{y25:47,y26:0}, 6:{y25:119,y26:0}, 7:{y25:72,y26:0}, 8:{y25:139,y26:0}, 9:{y25:143,y26:0}, 10:{y25:75,y26:0}, 11:{y25:76,y26:0}, 12:{y25:35,y26:0}}},
+  {name:'santaclara', enrollment:1671, openMonth:1, monthly:{1:{y25:162,y26:110}, 2:{y25:118,y26:83}, 3:{y25:163,y26:159}, 4:{y25:168,y26:168}, 5:{y25:216,y26:0}, 6:{y25:186,y26:0}, 7:{y25:225,y26:0}, 8:{y25:386,y26:0}, 9:{y25:212,y26:0}, 10:{y25:196,y26:0}, 11:{y25:172,y26:0}, 12:{y25:130,y26:0}}},
+  {name:'saratoga', enrollment:708, openMonth:1, monthly:{1:{y25:0,y26:82}, 2:{y25:0,y26:60}, 3:{y25:58,y26:128}, 4:{y25:138,y26:77}, 5:{y25:182,y26:0}, 6:{y25:148,y26:0}, 7:{y25:273,y26:0}, 8:{y25:418,y26:0}, 9:{y25:225,y26:0}, 10:{y25:217,y26:0}, 11:{y25:175,y26:0}, 12:{y25:98,y26:0}}},
+  {name:'sugarland', enrollment:0, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:49}, 2:{y25:0,y26:37}, 3:{y25:0,y26:66}, 4:{y25:0,y26:42}}},
+  {name:'upperwestside', enrollment:204, openMonth:1, isNew:true, monthly:{1:{y25:0,y26:78}, 2:{y25:0,y26:67}, 3:{y25:0,y26:62}, 4:{y25:64,y26:63}, 5:{y25:138,y26:0}, 6:{y25:130,y26:0}, 7:{y25:97,y26:0}, 8:{y25:179,y26:0}, 9:{y25:264,y26:0}, 10:{y25:157,y26:0}, 11:{y25:67,y26:0}, 12:{y25:44,y26:0}}},
+  {name:'vienna', enrollment:741, openMonth:1, monthly:{1:{y25:66,y26:48}, 2:{y25:75,y26:46}, 3:{y25:66,y26:67}, 4:{y25:78,y26:62}, 5:{y25:147,y26:0}, 6:{y25:133,y26:0}, 7:{y25:178,y26:0}, 8:{y25:215,y26:0}, 9:{y25:184,y26:0}, 10:{y25:163,y26:0}, 11:{y25:114,y26:0}, 12:{y25:34,y26:0}}},
+  {name:'virtual', enrollment:0, openMonth:4, isNew:true, monthly:{4:{y25:0,y26:1}}}
+];
 
 const campuses = RAW.map(c => {
-  const DENSITY_MONTHS = ##DENSITY_MONTHS##;
+  const DENSITY_MONTHS = [1, 2, 3];
   const validMonths = DENSITY_MONTHS.filter(m => m >= c.openMonth);
   const p26t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y26||0), 0);
   const p25t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y25||0), 0);
