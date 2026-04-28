@@ -87,7 +87,7 @@
 <div class="header">
   <div class="header-left">
     <h1>Academy Campus Prospect Dashboard</h1>
-    <p id="header-sub">Density &amp; momentum: Apr 2026 vs Apr 2025 &nbsp;&middot;&nbsp; Counted from each campus&#8217;s open month &nbsp;&middot;&nbsp; Click any campus for detail &nbsp;&middot;&nbsp; Updated 2026-04-28 04:31 UTC</p>
+    <p id="header-sub">Density &amp; momentum: Apr 2026 vs Apr 2025 &nbsp;&middot;&nbsp; Counted from each campus&#8217;s open month &nbsp;&middot;&nbsp; Click any campus for detail &nbsp;&middot;&nbsp; Updated 2026-04-28 04:34 UTC</p>
   </div>
   <div class="header-right">
     <button class="tab active" onclick="setChartMode('scatter')" id="tab-scatter">Quadrant view</button>
@@ -177,6 +177,9 @@ const RAW = [
 
 const campuses = RAW.map(c => {
   const DENSITY_MONTHS = [4];
+const MONTH_RANGE_STR = DENSITY_MONTHS.length > 1
+  ? MONTH_NAMES[DENSITY_MONTHS[0]] + '–' + MONTH_NAMES[DENSITY_MONTHS[DENSITY_MONTHS.length-1]]
+  : MONTH_NAMES[DENSITY_MONTHS[0]];
   const validMonths = DENSITY_MONTHS.filter(m => m >= c.openMonth);
   const p26t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y26||0), 0);
   const p25t = validMonths.reduce((s,m) => s + (c.monthly[m]?.y25||0), 0);
@@ -213,10 +216,10 @@ const worstM = established.filter(c=>c.momentum!==null).sort((a,b)=>a.momentum-b
 
 document.getElementById('metrics').innerHTML = `
   <div class="metric"><div class="metric-label">Median density</div><div class="metric-value">${avgDensity.toFixed(1)}</div><div class="metric-sub">established campuses</div></div>
-  <div class="metric"><div class="metric-label">Total prospects</div><div class="metric-value">${established.reduce((s,c)=>s+c.p26t,0).toLocaleString()}</div><div class="metric-sub">Jan&ndash;Mar 2026</div></div>
+  <div class="metric"><div class="metric-label">Total prospects</div><div class="metric-value">${established.reduce((s,c)=>s+c.p26t,0).toLocaleString()}</div><div class="metric-sub">${MONTH_RANGE_STR} 2026</div></div>
   <div class="metric"><div class="metric-label">Priority campuses</div><div class="metric-value" style="color:var(--red)">${established.filter(c=>c.quad==='priority').length}</div><div class="metric-sub">low density + declining</div></div>
   <div class="metric"><div class="metric-label">Watch campuses</div><div class="metric-value" style="color:var(--amber)">${established.filter(c=>c.quad==='watch').length}</div><div class="metric-sub">good density but slipping</div></div>
-  <div class="metric"><div class="metric-label">Worst momentum</div><div class="metric-value" style="color:var(--red);font-size:18px">${worstM ? worstM.name : '—'}</div><div class="metric-sub">${worstM ? worstM.momentum+'% avg Jan–Mar YoY' : ''}</div></div>
+  <div class="metric"><div class="metric-label">Worst momentum</div><div class="metric-value" style="color:var(--red);font-size:18px">${worstM ? worstM.name : '—'}</div><div class="metric-sub">${worstM ? worstM.momentum+'% avg '+MONTH_RANGE_STR+' YoY' : ''}</div></div>
 `;
 
 function sparklineSVG(c) {
@@ -251,12 +254,12 @@ function campusRowHTML(c) {
 const newCampuses = campuses.filter(c=>c.isNew||c.enrollment===0).sort((a,b)=>b.density-a.density);
 const maxNewDensity = Math.max(...newCampuses.map(c=>c.density), 1);
 document.getElementById('list-new').innerHTML =
-  `<div class="new-campus-note">No Jan&ndash;Mar 2025 baseline &mdash; density only</div>` +
+  `<div class="new-campus-note">No ${MONTH_RANGE_STR} 2025 baseline — density only</div>` +
   newCampuses.map(c => `<div class="campus-row" onclick="openDetail('${c.name}')">
     <div class="campus-name">${c.name}</div>
     <div class="campus-stats">
       <div class="campus-stat-row"><span class="stat-label">density</span><span style="color:var(--purple)">${c.density.toFixed(1)}</span></div>
-      <div class="campus-stat-row"><span class="stat-label">prospects</span><span style="color:var(--text-muted)">${c.p26t} Jan&ndash;Mar</span></div>
+      <div class="campus-stat-row"><span class="stat-label">prospects</span><span style="color:var(--text-muted)">${c.p26t} ${MONTH_RANGE_STR}</span></div>
     </div>
     <div style="width:58px;flex-shrink:0"><svg width="58" height="20"><rect x="2" y="5" width="${(c.density/maxNewDensity*54).toFixed(1)}" height="10" fill="#9b7fe0" opacity="0.6" rx="1"/></svg></div>
   </div>`).join('');
@@ -330,7 +333,7 @@ function openDetail(name){
 
   const yoyTotal=c.p25t>0?((c.p26t-c.p25t)/c.p25t*100).toFixed(1):null;
   const yoyCol=yoyTotal===null?'var(--text-dim)':(parseFloat(yoyTotal)>=0?'#4ab07a':'#e05a4a');
-  const newNote=(c.isNew||c.enrollment===0)?`<div class="new-campus-note" style="margin-bottom:16px">New campus — no Jan–Mar 2025 baseline for YoY comparison</div>`:'';
+  const newNote=(c.isNew||c.enrollment===0)?`<div class="new-campus-note" style="margin-bottom:16px">New campus — no ${MONTH_RANGE_STR} 2025 baseline for YoY comparison</div>`:'';
 
   document.getElementById('detail-body').innerHTML=`${newNote}
     <div class="detail-section"><div class="detail-section-title">Monthly breakdown (&#x2713; = counted toward density)</div>${monthRows}</div>
@@ -367,6 +370,16 @@ let scatterChart=null;
 function buildScatter(){
   if(scatterChart)scatterChart.destroy();
   const cWM=established.filter(c=>c.momentum!==null);
+
+  // Use only campuses with enrollment >= 400 to set axis bounds
+  // so small-campus outliers don't stretch the chart. All campuses still plot.
+  const cAxis=cWM.filter(c=>c.enrollment>=400);
+  const refD=cAxis.length?cAxis.map(c=>c.density):cWM.map(c=>c.density);
+  const refM=cAxis.length?cAxis.map(c=>c.momentum):cWM.map(c=>c.momentum);
+  const xMax=Math.ceil((Math.max(...refD)*1.20)/5)*5;
+  const yMin=Math.floor((Math.min(...refM)*1.25)/10)*10;
+  const yMax=Math.ceil((Math.max(...refM)*1.25)/10)*10;
+
   scatterChart=new Chart(document.getElementById('scatterChart'),{
     type:'bubble',
     data:{datasets:cWM.map(c=>({label:c.name,data:[{x:c.density,y:c.momentum,r:Math.max(7,Math.sqrt(c.enrollment)*0.38)}],backgroundColor:colors[c.quad]+'bb',borderColor:colors[c.quad],borderWidth:1.5}))},
@@ -374,8 +387,8 @@ function buildScatter(){
       responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{enabled:false}},
       scales:{
-        x:{title:{display:true,text:'Density: prospects per 100 enrolled (Jan–Mar) — median threshold',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'}},min:0},
-        y:{title:{display:true,text:'Momentum: avg monthly YoY % (Jan–Mar)',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'},callback:v=>v+'%'}}
+        x:{title:{display:true,text:'Density: prospects per 100 enrolled — median threshold',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'}},min:0,max:xMax},
+        y:{title:{display:true,text:'Momentum: avg monthly YoY %',color:'#555',font:{size:10,family:'DM Mono'}},grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{size:10,family:'DM Mono'},callback:v=>v+'%'},min:yMin,max:yMax}
       },
       animation:{duration:400}
     },
