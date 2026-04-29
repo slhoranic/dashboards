@@ -170,6 +170,119 @@
     content: '→'; position: absolute; left: 0; color: var(--orange); font-size: 11px;
   }
 
+  /* ===== 2026 CAMPUS DATA SECTION ===== */
+  .campus-data-section {
+    margin: 48px 0 0;
+  }
+  .campus-data-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .campus-data-header h2 {
+    font-family: 'Playfair Display', serif; font-size: 26px; color: var(--navy);
+  }
+  .campus-data-header .source-tag {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-mid);
+    background: var(--warm-gray-mid); padding: 5px 12px; border-radius: 4px;
+  }
+
+  .data-stat-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
+  }
+  .data-stat {
+    background: white; border-radius: 12px; padding: 20px 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border-bottom: 3px solid var(--warm-gray-mid);
+  }
+  .data-stat.accent-orange { border-bottom-color: var(--orange); }
+  .data-stat.accent-navy { border-bottom-color: var(--navy); }
+  .data-stat.accent-green { border-bottom-color: var(--green-mid); }
+  .data-stat.accent-blue { border-bottom-color: var(--blue-light); }
+  .data-stat .stat-val {
+    font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900;
+    color: var(--navy); line-height: 1; margin-bottom: 6px;
+  }
+  .data-stat .stat-lbl { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+  .data-stat .stat-sub { font-size: 12px; color: var(--text-mid); }
+
+  .campus-data-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;
+  }
+
+  .data-card {
+    background: white; border-radius: 14px; padding: 28px;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+  }
+  .data-card h3 {
+    font-size: 14px; font-weight: 700; color: var(--navy);
+    margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
+  }
+  .data-card h3 .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--orange);
+    background: rgba(240,78,41,0.08); padding: 3px 8px; border-radius: 4px;
+    font-weight: 400;
+  }
+
+  .category-bar-list { display: flex; flex-direction: column; gap: 10px; }
+  .cat-row { display: flex; align-items: center; gap: 12px; }
+  .cat-label { font-size: 12px; color: var(--text-mid); width: 160px; flex-shrink: 0; }
+  .cat-track { flex: 1; height: 22px; background: var(--warm-gray); border-radius: 4px; overflow: hidden; position: relative; }
+  .cat-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; }
+  .cat-count { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-mid); min-width: 28px; text-align: right; }
+
+  .finding-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .finding-list li {
+    font-size: 13px; color: var(--text-mid); line-height: 1.5;
+    padding: 10px 12px 10px 36px; position: relative;
+    background: var(--warm-gray); border-radius: 8px;
+  }
+  .finding-list li .fi-icon {
+    position: absolute; left: 10px; top: 10px;
+    font-size: 14px; line-height: 1;
+  }
+  .finding-list li strong { color: var(--text-dark); }
+  .finding-list.green li { background: rgba(60,139,46,0.06); }
+  .finding-list.green li .fi-icon { color: var(--green-dark); }
+  .finding-list.amber li { background: rgba(240,78,41,0.05); }
+  .finding-list.amber li .fi-icon { color: var(--orange); }
+
+  .month-bars { display: flex; align-items: flex-end; gap: 8px; height: 100px; padding-top: 8px; }
+  .month-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .month-bar-fill { width: 100%; border-radius: 3px 3px 0 0; }
+  .month-name { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-mid); }
+  .month-count { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--navy); font-weight: 600; }
+
+  .spotlight-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;
+  }
+  .spotlight-card {
+    border-radius: 12px; padding: 20px;
+    border: 1px solid var(--warm-gray-mid);
+  }
+  .spotlight-card .campus-name {
+    font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+  }
+  .spotlight-card .campus-headline {
+    font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.3;
+  }
+  .spotlight-card p { font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+  .spotlight-card.best { background: rgba(60,139,46,0.05); border-color: rgba(60,139,46,0.2); }
+  .spotlight-card.watch { background: rgba(240,78,41,0.04); border-color: rgba(240,78,41,0.15); }
+  .spotlight-card.note { background: rgba(26,47,90,0.04); border-color: rgba(26,47,90,0.12); }
+
+  .gap-banner {
+    background: var(--navy); border-radius: 14px; padding: 28px 32px;
+    margin-top: 20px; display: flex; align-items: flex-start; gap: 20px;
+  }
+  .gap-banner .gb-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .gap-banner h4 { font-size: 16px; font-weight: 600; color: var(--green-light); margin-bottom: 8px; }
+  .gap-banner p { font-size: 13px; color: rgba(255,255,255,0.78); line-height: 1.7; }
+  .gap-banner p strong { color: white; }
+
+  /* INFLUENCE BRIDGE */
   .influence-bridge {
     background: var(--navy); border-radius: 16px; padding: 36px 40px;
     color: white; margin-top: 32px;
@@ -437,7 +550,7 @@
   <div class="page-header">
     <div class="eyebrow">Phase 1 Synthesis</div>
     <h1>What We Heard &<br>What It Means</h1>
-    <p>Key findings from the campus listening tour — and how each directly informed the Mapping phase decisions.</p>
+    <p>Key findings from the campus listening tour — and how each directly informed the Mapping phase decisions. Supplemented with 2026 campus event tracker data across 15 campuses.</p>
   </div>
 
   <div class="recap-grid">
@@ -559,6 +672,177 @@
     </div>
   </div>
 
+  <!-- ===== 2026 CAMPUS ACTIVITY DATA ===== -->
+  <div class="campus-data-section">
+    <div class="campus-data-header">
+      <div>
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">2026 Campus Event Tracker Data</div>
+        <h2 style="font-family:'Playfair Display',serif; font-size:26px; color:var(--navy);">What Campuses Are Actually Doing</h2>
+      </div>
+      <div class="source-tag">15 Campuses · Jan–Apr 2026</div>
+    </div>
+
+    <div data-stat-row style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px;">
+      <div class="data-stat accent-navy">
+        <div class="stat-val">244</div>
+        <div class="stat-lbl">Events tracked</div>
+        <div class="stat-sub">across 15 campuses in 2026</div>
+      </div>
+      <div class="data-stat accent-orange">
+        <div class="stat-val">Jan</div>
+        <div class="stat-lbl">Peak activity month</div>
+        <div class="stat-sub">50 completed events — nearly double any other month</div>
+      </div>
+      <div class="data-stat accent-green">
+        <div class="stat-val">602</div>
+        <div class="stat-lbl">Leads via email</div>
+        <div class="stat-sub">avg 43 leads per campaign — highest volume channel</div>
+      </div>
+      <div class="data-stat accent-blue">
+        <div class="stat-val">79%</div>
+        <div class="stat-lbl">Completion rate</div>
+        <div class="stat-sub">193 of 244 events completed or in progress</div>
+      </div>
+    </div>
+
+    <div class="campus-data-cols">
+      <!-- LEFT: Event category breakdown -->
+      <div class="data-card">
+        <h3>Event Categories <span class="tag">All 244 events</span></h3>
+        <div class="category-bar-list">
+          <div class="cat-row">
+            <div class="cat-label">Tabling / Fairs</div>
+            <div class="cat-track"><div class="cat-bar" style="width:100%; background:#3266ad;"></div></div>
+            <div class="cat-count">56</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-label">Email Campaigns</div>
+            <div class="cat-track"><div class="cat-bar" style="width:77%; background:#1D9E75;"></div></div>
+            <div class="cat-count">43</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-label">Partnership / Sponsorship</div>
+            <div class="cat-track"><div class="cat-bar" style="width:64%; background:#BA7517;"></div></div>
+            <div class="cat-count">36</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-label">Open Houses</div>
+            <div class="cat-track"><div class="cat-bar" style="width:64%; background:#639922;"></div></div>
+            <div class="cat-count">36</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-label">Contests</div>
+            <div class="cat-track"><div class="cat-bar" style="width:29%; background:#E24B4A;"></div></div>
+            <div class="cat-count">16</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-label">Other (flyers, social, etc.)</div>
+            <div class="cat-track"><div class="cat-bar" style="width:38%; background:#b4b2a9;"></div></div>
+            <div class="cat-count">57</div>
+          </div>
+        </div>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--warm-gray-mid);">
+          <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin-bottom:10px;">Completed Events by Month</div>
+          <div style="display:flex; align-items:flex-end; gap:6px; height:80px; padding-top:8px;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">50</div>
+              <div style="width:100%;height:60px;background:#3266ad;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">J</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">31</div>
+              <div style="width:100%;height:37px;background:#73726c;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">F</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">42</div>
+              <div style="width:100%;height:50px;background:#3266ad;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">M</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">18</div>
+              <div style="width:100%;height:22px;background:#73726c;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">A</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">—</div>
+              <div style="width:100%;height:4px;background:#e8e4dc;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">S</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">—</div>
+              <div style="width:100%;height:4px;background:#e8e4dc;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">O</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">9</div>
+              <div style="width:100%;height:11px;background:#73726c;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">N</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--navy);font-weight:600;">7</div>
+              <div style="width:100%;height:9px;background:#73726c;border-radius:3px 3px 0 0;"></div>
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-mid);">D</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-mid);margin-top:6px;">Jan–Apr = 141 of 176 completed events. Summer months minimal. J=Jan, F=Feb, M=Mar, A=Apr, S=Sep, O=Oct, N=Nov, D=Dec</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: What's working vs. what's missing -->
+      <div class="data-card">
+        <h3>What the Data Shows <span class="tag">Signal from 15 campuses</span></h3>
+
+        <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase; color:var(--green-dark); margin-bottom:10px;">✓ What's working</div>
+        <ul class="finding-list green">
+          <li><span class="fi-icon">📧</span><strong>Email campaigns lead on volume</strong> — when campuses send them. 602 leads from 14 tracked campaigns; avg 43 per send. Most campuses aren't running them consistently.</li>
+          <li><span class="fi-icon">🏆</span><strong>Math competition tabling is the highest-quality audience</strong> — Vienna's MathCounts tabling (200 attendees, 10 leads, 1 direct enrollment) dramatically outperforms general fairs. Self-selected math families convert better.</li>
+          <li><span class="fi-icon">🏠</span><strong>Open houses with a named hook convert</strong> — San Mateo's structured open houses (45 RSVPs, 30+ show rate, 9 enrollments in one event) and Santa Clara's "Prospective Family Fun Night" (94 RSVPs, 60 showed) beat unnamed events significantly.</li>
+          <li><span class="fi-icon">🤝</span><strong>School PTO/PTA partnerships produce real enrollments</strong> — campuses with named school partnerships in their trackers consistently note enrolled families tracing back to those relationships.</li>
+        </ul>
+
+        <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; margin-top:18px;">⚠ What's missing</div>
+        <ul class="finding-list amber">
+          <li><span class="fi-icon">📋</span><strong>ROI tracking is inconsistent</strong> — most campuses skip 2–3 fields per event (usually leads and enrollments). Without a complete chain — RSVPs → attendance → leads → enrollments — it's impossible to know what converts.</li>
+          <li><span class="fi-icon">📉</span><strong>Several campuses are severely underrepresented</strong> — Morrisville and Princeton logged 1 event each all year. Either they're not using the tracker or they're not running events. Both are Cohort B campuses already struggling with prospect decline.</li>
+          <li><span class="fi-icon">🌐</span><strong>Paid channel + social data is almost entirely absent</strong> — the trackers capture in-person and email activity well, but nothing on Meta, Google, or social performance. A full picture needs both.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Campus Spotlights -->
+    <div style="margin-top: 4px;">
+      <div style="font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-mid); margin-bottom:14px;">Campus spotlights from the data</div>
+      <div class="spotlight-row">
+        <div class="spotlight-card best">
+          <div class="campus-name">San Mateo</div>
+          <div class="campus-headline">Best open house conversion in the network</div>
+          <p>Only campus consistently recording the full RSVP → attendance → leads → enrollment chain. Jan open house: 45 families invited, 32 showed, 9 AY enrollments. Spring: 29 showed, 4 enrolled. The format — named, structured, enrollment-on-the-spot — is the playbook standard.</p>
+        </div>
+        <div class="spotlight-card best">
+          <div class="campus-name">Pleasanton + Saratoga</div>
+          <div class="campus-headline">Most active and most creative programming</div>
+          <p>Both campuses logged 34–35 events — highest in the dataset. Pleasanton runs "Tea with the Team" (intimate, monthly, high conversion rate), chess night partnerships, and mock contest events. Saratoga runs a full community calendar. Both are examples of what high-activity campus marketing looks like.</p>
+        </div>
+        <div class="spotlight-card watch">
+          <div class="campus-name">Morrisville + Princeton</div>
+          <div class="campus-headline">1 event each recorded — flags for follow-up</div>
+          <p>Both are Cohort B campuses with known prospect decline issues. If marketing activity is genuinely this low, it explains the enrollment trends. If the tracker is just underused, we need accurate data before we can help. Either way, this is a priority check-in with their RGPs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data gap banner -->
+    <div class="gap-banner">
+      <div class="gb-icon">📌</div>
+      <div>
+        <h4>The core data gap — and what it means for playbooks</h4>
+        <p>The listening tour told us <strong>what campuses need</strong>. The event trackers show us <strong>what campuses are already doing</strong>. The gap between the two is where the playbook lives. Campuses are running events, sending emails, and showing up at fairs — but without consistent ROI tracking, they can't prove what's working or justify doing more of it. <strong>A shared tracking standard is a prerequisite deliverable before playbook launch</strong> — every event needs RSVPs, attendance, and leads captured before it's marked complete.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFLUENCE BRIDGE -->
   <div class="influence-bridge">
     <h2>How Listening Shaped Mapping</h2>
     <div class="influence-grid">
