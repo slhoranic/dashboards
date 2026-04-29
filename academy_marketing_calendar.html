@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AoPS Academy — Annual Marketing Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A2F5A;
+  --navy-mid: #2A4070;
+  --green: #3C8B2E;
+  --green-dk: #2A6020;
+  --green-light: #C8DF97;
+  --orange: #F04E29;
+  --gold: #C9920A;
+  --gold-pale: #FDF5E0;
+  --teal: #1E7A7A;
+  --warm: #F5F3EF;
+  --warm-mid: #E8E4DC;
+  --warm-dark: #D4CFC5;
+  --text: #1a1a1a;
+  --muted: #777;
+
+  --c-brand: #1A2F5A;
+  --c-paid: #E03A18;
+  --c-email: #1E7A7A;
+  --c-social: #3C8B2E;
+  --c-event: #C9920A;
+  --c-campus: #6B4CA8;
+  --c-evergreen: #3C8B2E;
+  --c-milestone: #F04E29;
+  --c-decision: #8A7A6A;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--warm);
+  color: var(--text);
+}
+
+/* ─── HEADER ─── */
+header {
+  position: sticky; top: 0; z-index: 300;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 36px; height: 58px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.logo { font-family:'Libre Baskerville',serif; color:white; font-size:14px; letter-spacing:.05em; }
+.logo em { color:var(--green-light); font-style:normal; }
+.logo small { font-size:11px; opacity:.55; margin-left:10px; font-family:'IBM Plex Mono',monospace; }
+
+.tabs { display:flex; gap:2px; }
+.tab {
+  padding:7px 16px; border:none; background:none; cursor:pointer;
+  font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500;
+  letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.5);
+  border-radius:4px; transition:all .2s;
+}
+.tab:hover { color:white; background:rgba(255,255,255,.08); }
+.tab.active { color:var(--green-light); background:rgba(200,223,151,.15); }
+
+/* ─── LEGEND BAR ─── */
+.legend {
+  background:white; border-bottom:1px solid var(--warm-mid);
+  padding:8px 36px; display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+}
+.legend-label { font-size:10px; font-family:'IBM Plex Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.litem { display:flex; align-items:center; gap:6px; font-size:11.5px; font-weight:500; }
+.lswatch { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+.lswatch.ev { border:1.5px solid var(--green); background:rgba(60,139,46,.15); }
+.lline { width:18px; height:3px; border-radius:2px; }
+
+/* ─── VIEWS ─── */
+.view { display:none; }
+.view.active { display:block; }
+
+/* ════════════════════════════════
+   GANTT VIEW
+════════════════════════════════ */
+.gantt-wrap { padding:28px 36px 60px; }
+.section-title { font-family:'Libre Baskerville',serif; font-size:26px; color:var(--navy); margin-bottom:4px; }
+.section-sub { font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.5; }
+
+/* Planning cycle indicator */
+.cycle-indicator {
+  display:flex; align-items:stretch; margin-bottom:20px;
+  border-radius:8px; overflow:hidden; border:1px solid var(--warm-mid);
+  font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+  letter-spacing:.07em; text-transform:uppercase;
+}
+.cycle-segment {
+  flex:1; padding:8px 10px; text-align:center; line-height:1.3;
+}
+.cy-planning { background:#FDF5E0; color:var(--gold); border-right:1px solid var(--warm-mid); }
+.cy-summer-build { background:#EFF8EE; color:var(--green-dk); border-right:1px solid var(--warm-mid); }
+.cy-ay-build { background:#EEF2F8; color:var(--navy); border-right:1px solid var(--warm-mid); }
+.cy-peak { background:rgba(240,78,41,.08); color:var(--orange); border-right:1px solid var(--warm-mid); }
+.cy-camps { background:#FDF5E0; color:var(--gold); border-right:1px solid var(--warm-mid); }
+.cy-ay-active { background:#EEF2F8; color:var(--navy); border-right:1px solid var(--warm-mid); }
+.cy-retention { background:#EFF8EE; color:var(--green-dk); }
+
+.gantt-scroll { overflow-x:auto; }
+.gtable { width:100%; min-width:1200px; border-collapse:collapse; }
+
+/* month headers */
+.mhrow th { background:white; border-bottom:2px solid var(--warm-mid); }
+.mhcell {
+  font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; text-align:center;
+  padding:8px 4px; color:var(--navy); border-right:1px solid var(--warm-mid);
+}
+.mhcell.hi-summer { background:#FEF8ED; color:var(--gold); }
+.mhcell.hi-ay { background:#EEF2F8; color:var(--navy-mid); }
+.mhcell.hi-peak { background:rgba(240,78,41,.06); color:var(--orange); }
+.label-col { width:200px; min-width:200px; }
+
+/* group header rows */
+.grp { }
+.grp td {
+  font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; padding:5px 10px;
+  color:white; border-bottom:1px solid rgba(255,255,255,.15);
+}
+.grp.g-decision td { background:#4A3A28; }
+.grp.g-mkt td { background:var(--navy); }
+.grp.g-summer td { background:var(--gold); color:#2a1800; }
+.grp.g-ev td { background:var(--green-dk); }
+.grp.g-campus td { background:#4A3575; }
+.grp.g-ms td { background:var(--orange); }
+
+/* task rows */
+.trow { border-bottom:1px solid var(--warm-mid); }
+.trow:hover { background:rgba(26,47,90,.02); }
+.tlabel {
+  font-size:11.5px; font-weight:500; padding:5px 8px 5px 14px;
+  vertical-align:middle; border-right:2px solid var(--warm-mid); color:var(--text);
+  line-height:1.3;
+}
+.tlabel small { display:block; font-size:10px; color:var(--muted); font-weight:400; margin-top:2px; }
+.ev-badge {
+  display:inline-block; background:rgba(60,139,46,.12); color:var(--green-dk);
+  font-size:8.5px; font-family:'IBM Plex Mono',monospace; font-weight:600;
+  padding:1px 5px; border-radius:3px; margin-left:4px; letter-spacing:.04em;
+  border:1px solid rgba(60,139,46,.25);
+}
+.mcell {
+  border-right:1px solid var(--warm-mid); padding:3px 2px;
+  vertical-align:middle; position:relative;
+}
+.mcell.hi-summer { background:rgba(201,146,10,.03); }
+.mcell.hi-peak { background:rgba(240,78,41,.03); }
+.mcell.hi-ay { background:rgba(26,47,90,.02); }
+
+/* bars */
+.bar {
+  height:20px; border-radius:3px; display:flex; align-items:center;
+  justify-content:center; font-size:9.5px; font-weight:600; color:white;
+  padding:0 5px; font-family:'IBM Plex Mono',monospace; letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; transition:opacity .15s; cursor:default;
+}
+.bar:hover { opacity:.8; }
+.b-brand  { background:var(--c-brand); }
+.b-paid   { background:var(--c-paid); }
+.b-email  { background:var(--c-email); }
+.b-social { background:var(--c-social); }
+.b-event  { background:var(--c-event); color:#1a0e00; }
+.b-campus { background:var(--c-campus); }
+.b-ev     { background:rgba(60,139,46,.2); color:var(--green-dk); border:1px solid rgba(60,139,46,.3); }
+.b-ms     { background:var(--c-milestone); }
+.b-dashed { background:var(--warm-mid); color:var(--navy); border:1.5px dashed var(--navy); }
+.b-full   { width:100%; }
+
+.ms-dot {
+  width:16px; height:16px; border-radius:50%; background:var(--orange);
+  margin:0 auto; display:flex; align-items:center; justify-content:center;
+  font-size:8px; font-weight:800; color:white;
+}
+
+/* ════════════════════════════════
+   MONTHLY VIEW
+════════════════════════════════ */
+.monthly-wrap { padding:28px 36px 60px; }
+.month-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+.mcard {
+  background:white; border-radius:11px; overflow:hidden;
+  box-shadow:0 1px 10px rgba(0,0,0,.06);
+  transition:transform .15s, box-shadow .15s;
+}
+.mcard:hover { transform:translateY(-2px); box-shadow:0 4px 18px rgba(0,0,0,.1); }
+.mcard.summer-card { outline:2px solid var(--gold); outline-offset:-2px; }
+.mcard.ay-card { outline:2px solid var(--navy); outline-offset:-2px; }
+.mcard.peak-card { outline:2px solid var(--orange); outline-offset:-2px; }
+.mcard.planning-card { outline:2px dashed var(--warm-dark); outline-offset:-2px; }
+
+.mcard-hdr {
+  padding:11px 14px 9px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--warm-mid);
+}
+.mcard-name { font-family:'Libre Baskerville',serif; font-size:17px; font-weight:700; color:var(--navy); }
+.mtags { display:flex; gap:3px; flex-wrap:wrap; justify-content:flex-end; }
+.mtag {
+  font-size:8.5px; font-family:'IBM Plex Mono',monospace; letter-spacing:.06em;
+  text-transform:uppercase; padding:2px 6px; border-radius:3px; font-weight:600;
+}
+.mt-summer { background:var(--gold-pale); color:var(--gold); }
+.mt-ay { background:#EEF2F8; color:var(--navy); }
+.mt-peak { background:rgba(240,78,41,.1); color:var(--orange); }
+.mt-plan { background:var(--warm-mid); color:var(--muted); }
+.mt-camps { background:#FDF5E0; color:var(--gold); }
+
+.mcard-body { padding:10px 14px 14px; }
+.mtrack { margin-bottom:8px; }
+.mtrack-lbl {
+  font-size:9px; font-family:'IBM Plex Mono',monospace; letter-spacing:.1em;
+  text-transform:uppercase; font-weight:700; padding-top:7px; margin-bottom:5px;
+  border-top:1px solid var(--warm-mid); color:var(--muted);
+}
+.mtrack-lbl.lbl-mkt { color:var(--navy); }
+.mtrack-lbl.lbl-summer { color:var(--gold); }
+.mtrack-lbl.lbl-campus { color:var(--c-campus); }
+.mtrack-lbl.lbl-ms { color:var(--orange); }
+.mtrack-lbl.lbl-ev { color:var(--green-dk); }
+
+.mitem { display:flex; align-items:flex-start; gap:6px; margin-bottom:4px; }
+.mitem-dot { width:6px; height:6px; border-radius:1px; flex-shrink:0; margin-top:4px; }
+.mitem-txt { font-size:11.5px; line-height:1.4; color:var(--text); }
+.mitem-txt.t-brand { color:var(--navy); font-weight:500; }
+.mitem-txt.t-ev { color:var(--green-dk); }
+.mitem-txt.t-campus { color:var(--c-campus); }
+.mitem-txt.t-ms { color:var(--orange); font-weight:600; }
+.mitem-txt.t-summer { color:var(--gold); font-weight:500; }
+
+/* ════════════════════════════════
+   OWNER VIEW
+════════════════════════════════ */
+.owner-wrap { padding:28px 36px 60px; }
+.owner-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.ocard { background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 10px rgba(0,0,0,.06); }
+.ocard-hdr { padding:18px 22px 14px; }
+.ocard-hdr h2 { font-family:'Libre Baskerville',serif; font-size:18px; margin-bottom:3px; }
+.ocard-hdr p { font-size:12px; opacity:.75; line-height:1.4; }
+.oh-navy { background:var(--navy); }
+.oh-navy h2, .oh-navy p { color:white; }
+.oh-green { background:var(--green-dk); }
+.oh-green h2, .oh-green p { color:white; }
+.oh-purple { background:#4A3575; }
+.oh-purple h2, .oh-purple p { color:white; }
+.oh-orange { background:var(--orange); }
+.oh-orange h2, .oh-orange p { color:white; }
+
+.ocard-body { padding:14px 22px 22px; }
+.omonth { margin-bottom:12px; }
+.omonth-name {
+  font-size:10px; font-family:'IBM Plex Mono',monospace; letter-spacing:.1em;
+  text-transform:uppercase; font-weight:700; color:var(--orange); margin-bottom:5px;
+}
+.otask {
+  font-size:12.5px; color:var(--text); padding:4px 0 4px 12px;
+  position:relative; border-bottom:1px solid var(--warm-mid); line-height:1.4;
+}
+.otask:last-child { border-bottom:none; }
+.otask::before { content:'›'; position:absolute; left:0; color:var(--orange); font-weight:700; }
+.otask.g::before { color:var(--green); }
+.otask.p::before { color:var(--c-campus); }
+.dl { font-size:9.5px; font-family:'IBM Plex Mono',monospace; color:var(--orange); font-weight:700; float:right; letter-spacing:.04em; }
+.dl.hard { color:var(--orange); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AoPS <em>Academy</em> · Marketing Calendar <small>Oct–Sep Planning Cycle</small></div>
+  <div class="tabs">
+    <button class="tab active" onclick="show('gantt',this)">Gantt</button>
+    <button class="tab" onclick="show('monthly',this)">Monthly</button>
+    <button class="tab" onclick="show('owner',this)">By Owner</button>
+  </div>
+</header>
+
+<div class="legend">
+  <span class="legend-label">Track</span>
+  <div class="litem"><div class="lswatch" style="background:var(--c-brand)"></div>Brand / Creative</div>
+  <div class="litem"><div class="lswatch" style="background:var(--c-paid)"></div>Paid Media</div>
+  <div class="litem"><div class="lswatch" style="background:var(--c-email)"></div>Email</div>
+  <div class="litem"><div class="lswatch" style="background:var(--c-social)"></div>Social / GMB</div>
+  <div class="litem"><div class="lswatch" style="background:var(--c-event)"></div>Events</div>
+  <div class="litem"><div class="lswatch" style="background:var(--c-campus)"></div>Campus</div>
+  <div class="litem"><div class="lswatch ev"></div>Evergreen (stable YoY)</div>
+  <div class="litem"><div class="lline" style="background:var(--orange)"></div>Milestone</div>
+  <div class="litem" style="gap:8px; margin-left:10px; padding-left:10px; border-left:1px solid var(--warm-mid)">
+    <span style="font-size:11px; font-family:'IBM Plex Mono',monospace; background:var(--gold-pale); color:var(--gold); padding:2px 7px; border-radius:3px; font-weight:600;">SUMMER</span>
+    <span style="font-size:11px; font-family:'IBM Plex Mono',monospace; background:#EEF2F8; color:var(--navy); padding:2px 7px; border-radius:3px; font-weight:600;">AY</span>
+    <span style="font-size:11px; font-family:'IBM Plex Mono',monospace; background:rgba(240,78,41,.1); color:var(--orange); padding:2px 7px; border-radius:3px; font-weight:600;">PEAK</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     GANTT VIEW  — 13 months: Oct → Oct
+══════════════════════════════════════════════════════ -->
+<div id="view-gantt" class="view active">
+<div class="gantt-wrap">
+  <div class="section-title">Annual Marketing Calendar — Gantt View</div>
+  <div class="section-sub">Planning cycle runs October → September. Two tracks (AY + Summer) run in parallel Feb–May. Read left to right as a rolling year.</div>
+
+  <!-- planning cycle ribbon -->
+  <div class="cycle-indicator">
+    <div class="cycle-segment cy-planning" style="flex:1">Oct<br>Summer<br>Planning</div>
+    <div class="cycle-segment cy-summer-build" style="flex:2">Nov – Dec<br>Summer<br>Build + Launch</div>
+    <div class="cycle-segment cy-ay-build" style="flex:2">Jan – Feb<br>AY Build<br>+ Launch</div>
+    <div class="cycle-segment cy-peak" style="flex:3">Mar – May<br>🔥 PEAK<br>Both Tracks</div>
+    <div class="cycle-segment cy-camps" style="flex:3">Jun – Aug<br>Camps Running<br>+ AY Active</div>
+    <div class="cycle-segment cy-retention" style="flex:2">Sep – Oct<br>Retention<br>+ Reset</div>
+  </div>
+
+  <div class="gantt-scroll">
+  <table class="gtable">
+    <thead>
+      <tr class="mhrow">
+        <th class="label-col mhcell" style="text-align:left;padding-left:10px;">TASK</th>
+        <th class="mhcell hi-summer">OCT<br><span style="font-size:8px">Summer Brief</span></th>
+        <th class="mhcell hi-summer">NOV<br><span style="font-size:8px">Summer Build</span></th>
+        <th class="mhcell hi-summer">DEC<br><span style="font-size:8px">Summer Opens</span></th>
+        <th class="mhcell">JAN<br><span style="font-size:8px">AY Planning</span></th>
+        <th class="mhcell hi-ay">FEB<br><span style="font-size:8px">AY Launch</span></th>
+        <th class="mhcell hi-peak">MAR<br><span style="font-size:8px">Peak: Both</span></th>
+        <th class="mhcell hi-peak">APR<br><span style="font-size:8px">AY Opens</span></th>
+        <th class="mhcell hi-peak">MAY<br><span style="font-size:8px">Summer WBN</span></th>
+        <th class="mhcell hi-summer">JUN<br><span style="font-size:8px">Camps Start</span></th>
+        <th class="mhcell hi-summer">JUL<br><span style="font-size:8px">Camps Mid</span></th>
+        <th class="mhcell hi-summer">AUG<br><span style="font-size:8px">AY Starts</span></th>
+        <th class="mhcell">SEP<br><span style="font-size:8px">Retention</span></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- PLANNING -->
+      <tr class="grp g-decision"><td colspan="13">◆ STRATEGIC DECISIONS & PLANNING</td></tr>
+      <tr class="trow">
+        <td class="tlabel">Summer camp brief + cohort review<small>Marketing + RGPs decide summer message, cohort assignments for next AY</small></td>
+        <td class="mcell hi-summer"><div class="bar b-dashed" style="font-size:8.5px">Decide</div></td>
+        <td class="mcell" colspan="11"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY national campaign brief<small>Pick campaign theme, persona lenses, regional taglines for next AY</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-brand">Draft</div></td>
+        <td class="mcell hi-ay"><div class="bar b-brand">Finalize</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY playbook updates distributed<small>Mar 1 deadline — campuses need 6 wks before Apr enrollment opens</small></td>
+        <td class="mcell" colspan="4"></td>
+        <td class="mcell hi-ay"><div class="bar b-brand">Build</div></td>
+        <td class="mcell hi-peak"><div class="bar b-ms" style="font-size:8.5px">● Mar 1</div></td>
+        <td class="mcell" colspan="6"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Campus asset packs to campuses<small>Canva templates, social assets, flyers — before open house season</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-brand">Build</div></td>
+        <td class="mcell hi-ay"><div class="bar b-ms" style="font-size:8.5px">● Feb 1</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+
+      <!-- SUMMER TRACK -->
+      <tr class="grp g-summer"><td colspan="13">☀️ SUMMER TRACK</td></tr>
+      <tr class="trow">
+        <td class="tlabel">Summer creatives ready ← hard deadline<small>All ads, social, flyers done before Dec enrollment opens. Nov 30 target.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-brand">Brief</div></td>
+        <td class="mcell hi-summer"><div class="bar b-brand">Build</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ms" style="font-size:8.5px">● NOV 30</div></td>
+        <td class="mcell" colspan="9"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer enrollment opens (December)<small>Announcement email → paid media → social all fire Dec 1</small></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="bar b-ms" style="font-size:8.5px">● DEC OPEN</div></td>
+        <td class="mcell" colspan="9"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer paid media (Meta + Search)<small>New creatives each year; summer-specific messaging</small></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="bar b-paid" style="font-size:8.5px">Launch</div></td>
+        <td class="mcell"><div class="bar b-paid">Sustain</div></td>
+        <td class="mcell hi-ay"><div class="bar b-paid">Sustain</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid">Wind</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid" style="font-size:8.5px">Close</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer email sequences<small>Announce → nurture → urgency → post-webinar follow-up</small></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="bar b-email" style="font-size:8.5px">Announce</div></td>
+        <td class="mcell"><div class="bar b-email">Nurture</div></td>
+        <td class="mcell hi-ay"><div class="bar b-email">Nurture</div></td>
+        <td class="mcell hi-peak"><div class="bar b-email">Urgency</div></td>
+        <td class="mcell hi-peak"><div class="bar b-email" style="font-size:8.5px">Post-WBN</div></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer PeachJar flyers<span class="ev-badge">Evergreen</span><small>Template refreshed; campus distributes via school districts Feb–Apr</small></td>
+        <td class="mcell" colspan="4"></td>
+        <td class="mcell hi-ay"><div class="bar b-ev">Template</div></td>
+        <td class="mcell hi-peak"><div class="bar b-ev b-full">Live across all campuses</div></td>
+        <td class="mcell hi-peak"></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer camp webinar (national, May)<small>Marketing produces; campuses promote 2 weeks prior locally</small></td>
+        <td class="mcell" colspan="5"></td>
+        <td class="mcell hi-peak"><div class="bar b-brand">Prep</div></td>
+        <td class="mcell hi-peak"><div class="bar b-brand">Prep</div></td>
+        <td class="mcell hi-peak"><div class="bar b-ms" style="font-size:8.5px">● Webinar</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer social content<small>Countdown to camps, behind the scenes, enrollment urgency</small></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="bar b-social" style="font-size:8.5px">Launch</div></td>
+        <td class="mcell"><div class="bar b-social">Live</div></td>
+        <td class="mcell hi-ay"><div class="bar b-social">Live</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Live</div></td>
+        <td class="mcell hi-summer"><div class="bar b-social" style="font-size:8.5px">Live Action</div></td>
+        <td class="mcell hi-summer"><div class="bar b-social" style="font-size:8.5px">Live Action</div></td>
+        <td class="mcell" colspan="2"></td>
+      </tr>
+
+      <!-- AY TRACK -->
+      <tr class="grp g-mkt"><td colspan="13">🎯 AY TRACK — MARKETING HQ</td></tr>
+      <tr class="trow">
+        <td class="tlabel">AY paid media (Meta + Search + LSA)<small>Brand-dependent; new creatives each AY cycle. Deepika.</small></td>
+        <td class="mcell" colspan="4"></td>
+        <td class="mcell hi-ay"><div class="bar b-paid">Launch</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-paid">Sustain</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY email sequence<small>Hype → auto-approval → priority access → enroll open → urgency</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-email" style="font-size:8.5px">Hype</div></td>
+        <td class="mcell hi-ay"><div class="bar b-email">Nurture</div></td>
+        <td class="mcell hi-peak"><div class="bar b-email">Nurture</div></td>
+        <td class="mcell hi-peak"><div class="bar b-email" style="font-size:8.5px">● OPENS</div></td>
+        <td class="mcell hi-peak"><div class="bar b-email">Urgency</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY direct mail<small>AoPS ZIP-targeted households; 1x per year, early in cycle</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-brand">Design</div></td>
+        <td class="mcell hi-ay"><div class="bar b-brand">Send</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY PeachJar flyers<span class="ev-badge">Evergreen</span><small>Template refreshed annually; campus distributes Jan–Apr</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-ev">Template</div></td>
+        <td class="mcell hi-ay"><div class="bar b-ev b-full">Live — campus distributes</div></td>
+        <td class="mcell hi-peak"></td>
+        <td class="mcell hi-peak"></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AY social content calendar<small>Templates + captions provided to campuses; brand-refreshed each AY</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-social">Build</div></td>
+        <td class="mcell hi-ay"><div class="bar b-social">Distribute</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Peak</div></td>
+        <td class="mcell hi-peak"><div class="bar b-social">Live</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">GMB posts — quarterly<span class="ev-badge">Evergreen</span><small>Marketing schedules; campus confirms local details each quarter</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev" style="font-size:8.5px">Q4 Post</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell"><div class="bar b-ev" style="font-size:8.5px">Q1 Post</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-peak"><div class="bar b-ev" style="font-size:8.5px">Q2 Post</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="bar b-ev" style="font-size:8.5px">Q3 Post</div></td>
+        <td class="mcell" colspan="2"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Math Wrapped + referral push<small>Year-end celebration. Referral + review trigger. Social-native.</small></td>
+        <td class="mcell" colspan="1"></td>
+        <td class="mcell"><div class="bar b-brand">Build</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ms" style="font-size:8.5px">● Launch</div></td>
+        <td class="mcell"><div class="bar b-ms" style="font-size:8.5px">Sustain</div></td>
+        <td class="mcell" colspan="8"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Referral + review program<span class="ev-badge">Evergreen</span><small>Runs year-round; Sita. Peaks with Math Wrapped Nov–Dec.</small></td>
+        <td class="mcell" colspan="12"><div class="bar b-ev b-full" style="font-size:9px;">ALWAYS ON — peaks Nov–Dec with Math Wrapped</div></td>
+      </tr>
+
+      <!-- EVERGREEN / PARTNERSHIPS -->
+      <tr class="grp g-ev"><td colspan="13">🤝 EVERGREEN — PARTNERSHIPS & SPONSORSHIPS (Stable Year-to-Year)</td></tr>
+      <tr class="trow">
+        <td class="tlabel">Community group sponsorships<span class="ev-badge">Evergreen</span><small>Annual renewal Oct; Tamil Sangam, Indian/Korean assoc, etc.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Renew</div></td>
+        <td class="mcell" colspan="11"><div class="bar b-ev b-full" style="font-size:9px;">Active — campus activates events throughout year</div></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Club sponsorships (math/robotics)<span class="ev-badge">Evergreen</span><small>Annual renewal; campus manages relationship with HQ templates</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Renew</div></td>
+        <td class="mcell" colspan="11"><div class="bar b-ev b-full" style="font-size:9px;">Active year-round</div></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">NPR underwriting (select markets)<span class="ev-badge">Evergreen</span><small>Morrisville/WUNC model. Annual contract. HQ copy, campus confirms.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Renew</div></td>
+        <td class="mcell" colspan="11"><div class="bar b-ev b-full" style="font-size:9px;">Always on where applicable</div></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">PTA outreach template + one-pager<span class="ev-badge">Evergreen</span><small>Stable template; confirm current each Jan. Campus-led execution.</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-ev">Confirm</div></td>
+        <td class="mcell hi-ay"><div class="bar b-ev b-full">Campus books PTA appearances (peak: Feb–Apr)</div></td>
+        <td class="mcell hi-peak"></td>
+        <td class="mcell hi-peak"></td>
+        <td class="mcell" colspan="1"></td>
+        <td class="mcell"><div class="bar b-ev">Fall PTA</div></td>
+        <td class="mcell" colspan="3"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Parent ambassador kit<span class="ev-badge">Evergreen</span><small>Stable kit; campus activates 3–5 ambassadors each AY cycle</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-ev">Activate</div></td>
+        <td class="mcell" colspan="8"><div class="bar b-ev b-full" style="font-size:9px;">Ambassadors active year-round</div></td>
+      </tr>
+
+      <!-- CAMPUS EXECUTION -->
+      <tr class="grp g-campus"><td colspan="13">🏫 CAMPUS EXECUTION</td></tr>
+      <tr class="trow">
+        <td class="tlabel">Review cohort + confirm open house dates<small>CD reviews playbook, books venue, flags local nuances to RGP</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-campus" style="font-size:8.5px">Review</div></td>
+        <td class="mcell hi-ay"><div class="bar b-campus" style="font-size:8.5px">Confirm</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Open House — AY (primary window)<small>Late Jan or Feb. Families warm for April 13 enrollment.</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-event">Plan</div></td>
+        <td class="mcell hi-ay"><div class="bar b-event" style="font-size:8.5px">● Open House</div></td>
+        <td class="mcell hi-peak"><div class="bar b-event" style="font-size:8.5px">● Secondary</div></td>
+        <td class="mcell" colspan="6"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Open House — AY (late window)<small>Post-enrollment-open for undecided families</small></td>
+        <td class="mcell" colspan="6"></td>
+        <td class="mcell hi-peak"><div class="bar b-event" style="font-size:8.5px">● Late OH</div></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Summer camp fairs<small>Peak: April. Campus attends with HQ collateral.</small></td>
+        <td class="mcell" colspan="5"></td>
+        <td class="mcell hi-peak"><div class="bar b-event">Fairs</div></td>
+        <td class="mcell hi-peak"><div class="bar b-event" style="font-size:8.5px">● Peak Fairs</div></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">AMC / contest hosting<span class="ev-badge">Evergreen</span><small>Nov–Feb cycle. Campus hosts; marketing promotes locally.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Plan</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ev" style="font-size:8.5px">AMC Prep</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">AMC</div></td>
+        <td class="mcell"><div class="bar b-ev">Contest</div></td>
+        <td class="mcell hi-ay"><div class="bar b-ev">Contest</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Professional talks / parent ed events<span class="ev-badge">Evergreen</span><small>Min 2x per semester. Awareness + retention. Kathy-style format.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Talk</div></td>
+        <td class="mcell" colspan="1"></td>
+        <td class="mcell hi-summer"><div class="bar b-ev">Talk</div></td>
+        <td class="mcell"><div class="bar b-ev">Talk</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-peak"><div class="bar b-ev">Talk</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell"><div class="bar b-ev">Talk</div></td>
+        <td class="mcell" colspan="1"></td>
+        <td class="mcell"><div class="bar b-ev">Talk</div></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">Social posting from templates<small>Campus posts from HQ-supplied templates; 2–3x/week minimum</small></td>
+        <td class="mcell" colspan="12"><div class="bar b-campus b-full" style="font-size:9px;">ALWAYS ON — Campus posts from HQ templates locally</div></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">GMB: confirm local details + photos<small>Quarterly. Campus confirms hours, adds 2 local photos.</small></td>
+        <td class="mcell hi-summer"><div class="bar b-ev" style="font-size:8.5px">Q4 ✓</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell"><div class="bar b-ev" style="font-size:8.5px">Q1 ✓</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-peak"><div class="bar b-ev" style="font-size:8.5px">Q2 ✓</div></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell"><div class="bar b-ev" style="font-size:8.5px">Q3 ✓</div></td>
+        <td class="mcell" colspan="2"></td>
+      </tr>
+
+      <!-- MILESTONES -->
+      <tr class="grp g-ms"><td colspan="13">📌 NON-NEGOTIABLE DEADLINES</td></tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ Summer creatives DONE<small>All summer assets approved before enrollment opens Dec 1</small></td>
+        <td class="mcell hi-summer"><div class="bar b-brand" style="font-size:8.5px">Build</div></td>
+        <td class="mcell hi-summer"><div class="bar b-brand">In Review</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ms" style="font-size:8.5px">● NOV 30 ✓</div></td>
+        <td class="mcell" colspan="9"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ Summer enrollment opens<small>Dec 1 — announcement email, paid media, social all fire same day</small></td>
+        <td class="mcell" colspan="2"></td>
+        <td class="mcell hi-summer"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="9"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ Campus asset packs delivered<small>Canva + social templates — campuses need before open house season</small></td>
+        <td class="mcell" colspan="3"></td>
+        <td class="mcell"><div class="bar b-brand" style="font-size:8.5px">Build</div></td>
+        <td class="mcell hi-ay"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="7"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ AY playbooks to campuses by Mar 1<small>6-week lead time before April 13 enrollment opens</small></td>
+        <td class="mcell" colspan="4"></td>
+        <td class="mcell hi-ay"><div class="bar b-brand" style="font-size:8.5px">Finalize</div></td>
+        <td class="mcell hi-peak"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="6"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ AY enrollment opens (~Apr 13)<small>Full email sequence fires; paid media peaks; open houses should be done</small></td>
+        <td class="mcell" colspan="6"></td>
+        <td class="mcell hi-peak"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="5"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ Summer camp webinar (May)<small>Marketing produces; campus promotes 2 weeks prior</small></td>
+        <td class="mcell" colspan="7"></td>
+        <td class="mcell hi-peak"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="4"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ AY classes begin (August)<small>Retention phase activates; paid pivots; camps wrapping up simultaneously</small></td>
+        <td class="mcell" colspan="10"></td>
+        <td class="mcell hi-summer"><div class="ms-dot">●</div></td>
+        <td class="mcell" colspan="1"></td>
+      </tr>
+      <tr class="trow">
+        <td class="tlabel">⚠ Math Wrapped + next cycle planning<small>Year-end campaign launches; Oct reset begins next planning cycle</small></td>
+        <td class="mcell hi-summer"><div class="ms-dot">●</div></td>
+        <td class="mcell hi-summer"><div class="bar b-ms b-full" style="font-size:9px;">Math Wrapped — referral + review push</div></td>
+        <td class="mcell" colspan="10"></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MONTHLY VIEW
+══════════════════════════════════════════════════════ -->
+<div id="view-monthly" class="view">
+<div class="monthly-wrap">
+  <div class="section-title">Month-by-Month Breakdown</div>
+  <div class="section-sub">Ordered Oct → Sep to reflect the true planning cycle. Summer-track months in gold, AY-track months in navy, peak overlap in orange.</div>
+  <div class="month-grid">
+
+    <!-- OCT -->
+    <div class="mcard summer-card">
+      <div class="mcard-hdr"><div class="mcard-name">October</div><div class="mtags"><span class="mtag mt-plan">Planning Reset</span><span class="mtag mt-summer">Summer Brief</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Start summer camp creative brief — messaging, visuals, offers</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Confirm cohort assignments with RGPs for next AY cycle</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Begin Math Wrapped production (for Nov launch)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Renew community group sponsorships (Tamil Sangam, etc.)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Renew club sponsorships, NPR underwriting where applicable</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-ev">GMB Q4 posts scheduled</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AMC planning: confirm hosting dates, promote to local math community</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q4: confirm hours, add 2 local photos</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Schedule fall professional talk (Oct or Nov)</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-ms">Deadline</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">Summer creatives must be in review by Oct 31 → Nov approval</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOV -->
+    <div class="mcard summer-card">
+      <div class="mcard-hdr"><div class="mcard-name">November</div><div class="mtags"><span class="mtag mt-summer">Summer Build</span><span class="mtag mt-peak">Math Wrapped</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Math Wrapped launches — year-end celebration campaign</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Summer creatives in final review and approval</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">Math Wrapped email → enrolled families with referral ask</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">Math Wrapped social campaign — shareable, referral-trigger format</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Referral + review program: peak activation window</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AMC contest hosting (Nov–Feb cycle)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Share Math Wrapped — encourage families to post, tag campus</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Ask happy families for Google reviews (post Math Wrapped)</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-ms">Deadline</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">⚠ ALL summer creatives approved by Nov 30 — hard deadline</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEC -->
+    <div class="mcard summer-card">
+      <div class="mcard-hdr"><div class="mcard-name">December</div><div class="mtags"><span class="mtag mt-summer">Summer Opens</span><span class="mtag mt-peak">🔥 Hot</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-summer">Marketing HQ — Summer</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Dec 1: Summer enrollment opens — email, paid, social all fire</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">Summer paid media launches (Meta + Search)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">Summer announcement email → full mailing list</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">Summer social posts launch across all campuses</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ — AY Planning</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Begin drafting AY national campaign brief for Jan review</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Confirm cohort assignments finalized with RGPs by Dec 31</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Promote summer camps locally — social + word of mouth</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AMC contest hosting continues</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAN -->
+    <div class="mcard">
+      <div class="mcard-hdr"><div class="mcard-name">January</div><div class="mtags"><span class="mtag mt-ay">AY Planning</span><span class="mtag mt-summer">Summer Live</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Finalize AY campaign brief — theme, persona lenses, regional taglines</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Begin AY creative production: ads, flyers, social templates</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">AY hype email → full mailing list</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-summer">Summer paid media: sustain + nurture</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-summer">Summer email nurture sequence continues</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q1 posts scheduled</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Confirm PTA template, referral kit, parent ambassador kit are current</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AMC contest hosting (Jan–Feb window)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Book open house venue for Feb–Mar now</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q1: confirm hours, add 2 local photos</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Host professional talk (Jan or Feb)</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-ms">Deadline</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">Campus asset packs (Canva + social) must be done by Feb 1</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEB -->
+    <div class="mcard ay-card">
+      <div class="mcard-hdr"><div class="mcard-name">February</div><div class="mtags"><span class="mtag mt-ay">AY Launch</span><span class="mtag mt-summer">Summer Live</span><span class="mtag mt-peak">🔥</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Feb 1: Campus asset packs delivered to all campuses</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">AY paid media launches — Meta lead ads, Search, LSA</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">AY social content calendar live — notify campuses assets ready</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">AY PeachJar flyers live across all campuses</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Direct mail in market (AoPS ZIP households)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">AY nurture email sequence begins (2x/month)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-summer">Summer PeachJar flyers live</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● OPEN HOUSE — primary window, peak timing</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Host AY placement test sessions</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">PTA presentation: book spring slot if not yet secured</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Activate parent ambassadors with referral kits</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Post from AY social templates 3x/week</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAR -->
+    <div class="mcard peak-card">
+      <div class="mcard-hdr"><div class="mcard-name">March</div><div class="mtags"><span class="mtag mt-ay">AY Active</span><span class="mtag mt-summer">Summer Push</span><span class="mtag mt-peak">🔥 Peak</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Mar 1: AY playbooks distributed — hard deadline</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">AY paid media: peak spend, optimize daily</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">AY nurture: 2x/month cadence</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-summer">Summer urgency email push begins</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-summer">Summer PeachJar flyers live</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Prep summer camp webinar (May) — deck + logistics</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">● Open House (secondary — for campuses that missed Feb)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">PTA presentation (prime window — spring semester)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Spring school carnival / community event appearances</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Begin promoting summer camp fair attendance (April)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APR -->
+    <div class="mcard peak-card">
+      <div class="mcard-hdr"><div class="mcard-name">April</div><div class="mtags"><span class="mtag mt-ay">AY Opens</span><span class="mtag mt-summer">Summer Fairs</span><span class="mtag mt-peak">🔥 Peak</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ — AY</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Apr ~13: AY Enrollment Opens — full email sequence fires</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">Auto-approval → priority access → new enrollment open emails</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">AY paid media: sustained peak spend</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">AY social at peak posting frequency</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q2 post scheduled</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-summer">Marketing HQ — Summer</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-summer">Webinar landing page + promo emails + social live</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-summer">Summer paid media at peak; wind-down begins late April</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">● Summer camp fairs — peak month, attend with HQ collateral</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AY placement tests + consultations in session</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Promote summer webinar locally (2 weeks before May date)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Spring school carnival appearances</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAY -->
+    <div class="mcard peak-card">
+      <div class="mcard-hdr"><div class="mcard-name">May</div><div class="mtags"><span class="mtag mt-ay">AY Urgency</span><span class="mtag mt-summer">Webinar</span><span class="mtag mt-peak">🔥 Peak</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Summer Camp Webinar — Marketing produces, campus promotes</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">AY urgency email: "still spots available"</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-summer">Post-webinar summer follow-up email</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-summer">Summer paid: final wind-down before camps begin</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">AY paid: sustain through May</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">● Late open house (undecided AY families)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Promote summer webinar 2 weeks prior — social + email</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">AY consultations + placements continue</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Cross-sell: encourage summer families to consider AY</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUN–AUG -->
+    <div class="mcard summer-card">
+      <div class="mcard-hdr"><div class="mcard-name">June – August</div><div class="mtags"><span class="mtag mt-camps">Camps Running</span><span class="mtag mt-ay">AY Starts Aug</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-social)"></div><span class="mitem-txt t-brand">Summer camp social content — live action, behind the scenes</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">Cross-sell email: "join us for AY" to summer families (July)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Produce next cycle's AY creative brief (Jul–Aug build window)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Produce next year's summer creatives (goal: ready Oct review)</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">● Aug: AY classes begin — welcome email, retention phase starts</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q3 post scheduled</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Summer camps in session — focus on delivery + experience</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Collect photos, testimonials, stories for next year's content</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Cross-sell AY to summer families in session</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Aug: first-week phone check-ins with new AY families</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">GMB Q3: confirm hours, add 2 local photos</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEP -->
+    <div class="mcard">
+      <div class="mcard-hdr"><div class="mcard-name">September</div><div class="mtags"><span class="mtag mt-ay">AY Active</span><span class="mtag mt-plan">Retention</span></div></div>
+      <div class="mcard-body">
+        <div class="mtrack"><div class="mtrack-lbl lbl-mkt">Marketing HQ</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-email)"></div><span class="mitem-txt t-brand">Mid-semester retention email to enrolled families</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-paid)"></div><span class="mitem-txt t-brand">Paid media shifts from acquisition → remarketing/retention signals</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-brand)"></div><span class="mitem-txt t-brand">Begin Oct planning cycle — summer brief for following year</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Referral program: ongoing; encourage reviews from new AY families</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-campus">Campus Teams</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">PTA outreach: fall semester introduction</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Schedule fall professional talk / parent education event</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--green)"></div><span class="mitem-txt t-ev">Start identifying next-cycle parent ambassadors</span></div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--c-campus)"></div><span class="mitem-txt t-campus">Begin AMC planning for Oct–Nov contest hosting</span></div>
+        </div>
+        <div class="mtrack"><div class="mtrack-lbl lbl-ms">Cycle Resets</div>
+          <div class="mitem"><div class="mitem-dot" style="background:var(--orange)"></div><span class="mitem-txt t-ms">→ October: Summer brief begins. New planning cycle starts.</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     OWNER VIEW
+══════════════════════════════════════════════════════ -->
+<div id="view-owner" class="view">
+<div class="owner-wrap">
+  <div class="section-title">Responsibilities by Owner</div>
+  <div class="section-sub">What Marketing HQ owns vs. what campus teams own — split by brand-dependent (rebuilt annually) vs. evergreen (stable YoY)</div>
+  <div class="owner-grid">
+
+    <div class="ocard">
+      <div class="ocard-hdr oh-navy">
+        <h2>Marketing HQ — Brand-Dependent</h2>
+        <p>Must be rebuilt or refreshed each cycle when national campaign platform changes</p>
+      </div>
+      <div class="ocard-body">
+        <div class="omonth"><div class="omonth-name">Oct — Summer Planning Starts</div>
+          <div class="otask">Summer creative brief: messaging, visuals, enrollment offers</div>
+          <div class="otask">Cohort assignment review with all RGPs</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">By Nov 30 — Hard Deadline</div>
+          <div class="otask">All summer creatives approved and ready to deploy<span class="dl hard">NOV 30</span></div>
+          <div class="otask">Math Wrapped campaign built and live</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Dec — Summer Opens</div>
+          <div class="otask">Summer announcement email fires Dec 1</div>
+          <div class="otask">Summer paid media (Meta + Search) launches Dec 1</div>
+          <div class="otask">Summer social posts launch Dec 1</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Jan — AY Planning Starts</div>
+          <div class="otask">AY national campaign brief finalized (theme, persona lenses, taglines)</div>
+          <div class="otask">AY creative production begins: ads, flyers, social templates</div>
+          <div class="otask">AY hype email → full mailing list</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">By Feb 1 — Hard Deadline</div>
+          <div class="otask">Campus-editable Canva asset packs delivered to all campuses<span class="dl hard">FEB 1</span></div>
+          <div class="otask">AY paid media live (Meta lead ads, Search, LSA)<span class="dl hard">FEB 1</span></div>
+          <div class="otask">AY social content calendar distributed to campuses<span class="dl hard">FEB 1</span></div>
+          <div class="otask">AY PeachJar flyers live</div>
+          <div class="otask">Direct mail in market</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">By Mar 1 — Hard Deadline</div>
+          <div class="otask">AY playbooks issued to all campuses (6 wks before enrollment opens)<span class="dl hard">MAR 1</span></div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Apr ~13 — AY Opens</div>
+          <div class="otask">Full AY email sequence fires automatically</div>
+          <div class="otask">Summer camp webinar promo assets live</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">May — Summer Webinar</div>
+          <div class="otask">Summer camp webinar: Marketing produces, campus promotes 2 wks prior</div>
+          <div class="otask">Post-webinar follow-up email</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ocard">
+      <div class="ocard-hdr oh-green">
+        <h2>Marketing HQ — Evergreen</h2>
+        <p>Stable year-to-year. Update only if program logic changes, not because brand refreshed.</p>
+      </div>
+      <div class="ocard-body">
+        <div class="omonth"><div class="omonth-name">October (annual reset)</div>
+          <div class="otask g">Renew community group sponsorships (annual contract)</div>
+          <div class="otask g">Renew club sponsorships — math, robotics, science</div>
+          <div class="otask g">Renew NPR underwriting where applicable</div>
+          <div class="otask g">Confirm PTA one-pager, parent ambassador kit, referral kit are current</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">January</div>
+          <div class="otask g">Verify all evergreen templates are up to date before distribution</div>
+          <div class="otask g">Confirm PeachJar template files updated with correct dates</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Quarterly (every 3 months)</div>
+          <div class="otask g">GMB: schedule 4 posts for the quarter, all 25 campuses</div>
+          <div class="otask g">GMB: audit each campus for correct hours, address, category</div>
+          <div class="otask g">Email template library: confirm templates are current</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Always On</div>
+          <div class="otask g">Referral + review program: running year-round (Sita). Peaks Nov–Dec.</div>
+          <div class="otask g">Social template library: always accessible in Canva shared folder</div>
+          <div class="otask g">Parent ambassador kit: available to all campuses on request</div>
+          <div class="otask g">Event-in-a-Box kit: available and maintained for open houses + talks</div>
+          <div class="otask g">PeachJar templates: maintained in Canva shared folder</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ocard">
+      <div class="ocard-hdr oh-purple">
+        <h2>Campus Teams</h2>
+        <p>Localized execution using HQ-supplied materials. Designed to be extremely low-lift.</p>
+      </div>
+      <div class="ocard-body">
+        <div class="omonth"><div class="omonth-name">October</div>
+          <div class="otask p">Plan AMC contest hosting: confirm dates, promote to local math community</div>
+          <div class="otask p">Renew community group sponsorships with local contacts</div>
+          <div class="otask p">GMB Q4 check: confirm hours, upload 2 local photos</div>
+          <div class="otask p">Schedule fall professional talk</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">November – December</div>
+          <div class="otask p">AMC contest hosting</div>
+          <div class="otask p">Share Math Wrapped on local social; encourage families to tag + share</div>
+          <div class="otask p">Promote summer camps locally as soon as enrollment opens Dec 1</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">January – February</div>
+          <div class="otask p">Review cohort playbook; flag local nuances to RGP by Jan 15</div>
+          <div class="otask p">Book open house venue for Feb (or Mar at latest)</div>
+          <div class="otask p">GMB Q1 check: confirm hours, upload 2 local photos</div>
+          <div class="otask p">Host professional talk</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">February (primary open house window)</div>
+          <div class="otask p">● HOST OPEN HOUSE — use HQ Event-in-a-Box kit</div>
+          <div class="otask p">Book and attend PTA spring appearance</div>
+          <div class="otask p">Activate parent ambassadors with referral kits from HQ</div>
+          <div class="otask p">Distribute AY PeachJar flyers via school district contacts</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">March – May</div>
+          <div class="otask p">Attend summer camp fairs with HQ collateral (peak: April)</div>
+          <div class="otask p">Promote summer webinar locally 2 weeks before May date</div>
+          <div class="otask p">Run AY consultations + placement tests</div>
+          <div class="otask p">Attend spring school carnivals</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Always On</div>
+          <div class="otask p">Post from HQ social templates locally, 2–3x/week minimum</div>
+          <div class="otask p">Ask happy families for Google reviews (especially post Math Wrapped)</div>
+          <div class="otask p">Professional talks: minimum 2x per semester</div>
+          <div class="otask p">Cross-sell summer → AY and AY → summer when in session</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ocard">
+      <div class="ocard-hdr oh-orange">
+        <h2>Non-Negotiable Deadlines</h2>
+        <p>The dates the whole machine depends on — miss these and the next activation is compromised</p>
+      </div>
+      <div class="ocard-body">
+        <div class="omonth"><div class="omonth-name">Oct 31</div>
+          <div class="otask">Summer creatives submitted for review — must be approved by Nov 30</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Nov 30 ← Summer Hard Deadline</div>
+          <div class="otask">All summer assets approved: ads, flyers, social templates, email</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Dec 1</div>
+          <div class="otask">Summer enrollment opens — all assets deploy same day, coordinated</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Jan 15</div>
+          <div class="otask">Campus cohort assignments confirmed; local nuances flagged to RGPs</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Feb 1 ← AY Assets Hard Deadline</div>
+          <div class="otask">Campus Canva + social packs delivered to all campuses</div>
+          <div class="otask">AY paid media live (Meta, Search, LSA)</div>
+          <div class="otask">AY social templates distributed to campuses</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">Mar 1 ← AY Playbooks Hard Deadline</div>
+          <div class="otask">AY playbooks in campuses' hands — 6-week lead to enrollment open</div>
+          <div class="otask">Direct mail in market</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">~Apr 13 — AY Enrollment Opens</div>
+          <div class="otask">Open houses should already be completed or final one scheduled</div>
+          <div class="otask">Full AY email sequence fires automatically</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">May (TBD)</div>
+          <div class="otask">Summer camp webinar — campus promotes 2 full weeks in advance</div>
+        </div>
+        <div class="omonth"><div class="omonth-name">August</div>
+          <div class="otask">AY classes begin — welcome email, pivot to retention</div>
+          <div class="otask">Next cycle's summer creative build should be underway</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+function show(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
