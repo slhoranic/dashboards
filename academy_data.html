@@ -718,7 +718,7 @@ function renderScorecard() {
   const groups = {A:[], B:[], C:[]};
   DATA.ytd_actuals.forEach(c => groups[c.cohort].push(c));
   const gLabels = { A:"Cohort A", B:"Cohort B", C:"Cohort C" };
-  const gSubs   = { A:"Established", B:"Growing", C:"Developing" };
+  const gSubs   = { A:"Developing", B:"Growing", C:"Established" };
 
   let rows = "";
   ["A","B","C"].forEach(g => {
