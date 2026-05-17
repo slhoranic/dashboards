@@ -309,98 +309,357 @@ footer {
 
 <script>
 // ── DATA_START ──
-//  Structure:
-//    meta         — updated each run by Python script
-//    eoy_goals    — static all year; YOU input once; Python never touches this
-//    ytd_actuals  — updated each run by Python script
-//    network      — network-level aggregates; updated each run
-// ══════════════════════════════════════════════════════════════════
 const DATA = {
 
   meta: {
-    season:    "AY 2026",
-    as_of:     "Week ending May 9, 2026",
-    updated:   "May 15, 2026"
-  },
+  "season": "AY 2026",
+  "as_of": "As of 17 May 2026",
+  "updated": "Updated 17 May 2026"
+},
 
-  // ── EOY GOALS ─────────────────────────────────────────────────
-  // Input once at start of AY. Python script does NOT overwrite this.
-  // Fields per campus: enrollment (total new enrollments EOY target)
-  //                    retention_rate (re-enrollment rate target %)
-  //                    consultations (EOY consultation target)
-  // ──────────────────────────────────────────────────────────────
+  // ── EOY GOALS — set once at AY start, script never overwrites
   eoy_goals: {
-    "Sugar Land":    { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Austin":        { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Cambridge":     { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Pasadena":      { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Johns Creek":   { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Santa Clara":   { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Princeton":     { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Bellevue":      { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Morrisville":   { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Carmel Valley": { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "San Mateo":     { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Fremont":       { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Mountain View": { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Portland":      { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Northbrook":    { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Frisco":        { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Lexington":     { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Pleasanton":    { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Gaithersburg":  { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Irvine":        { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Vienna":        { enrollment: 0, retention_rate: 0, consultations: 0 },
-    "Redmond":       { enrollment: 0, retention_rate: 0, consultations: 0 }
+    "Austin": {"enrollment": 500},
+    "Cambridge": {"enrollment": 500},
+    "Johns Creek": {"enrollment": 500},
+    "Pasadena": {"enrollment": 500},
+    "Santa Clara": {"enrollment": 500},
+    "Sugar Land": {"enrollment": 500},
+    "Bellevue": {"enrollment": 500},
+    "Fremont": {"enrollment": 500},
+    "Millburn": {"enrollment": 500},
+    "Morrisville": {"enrollment": 500},
+    "Mountain View": {"enrollment": 500},
+    "Portland": {"enrollment": 500},
+    "Princeton": {"enrollment": 500},
+    "San Diego": {"enrollment": 500},
+    "San Mateo": {"enrollment": 500},
+    "Saratoga": {"enrollment": 500},
+    "Upper West Side": {"enrollment": 500},
+    "Frisco": {"enrollment": 500},
+    "Gaithersburg": {"enrollment": 500},
+    "Irvine": {"enrollment": 500},
+    "Lexington": {"enrollment": 500},
+    "Northbrook": {"enrollment": 500},
+    "Pleasanton": {"enrollment": 500},
+    "Redmond": {"enrollment": 500},
+    "Vienna": {"enrollment": 500}
   },
 
-  // ── YTD ACTUALS ───────────────────────────────────────────────
-  // Python script overwrites this block on each run.
-  // Fields per campus:
-  //   prospects       — top of funnel leads / inquiries
-  //   consultations   — scheduled or completed consultations
-  //   new_enrollments — new students enrolled YTD
-  //   retention_rate  — re-enrollment rate % for existing students
-  // ──────────────────────────────────────────────────────────────
+  // ── YTD ACTUALS — overwritten each run
   ytd_actuals: [
-    // ── COHORT A ──
-    { name:"Sugar Land",    state:"TX", cohort:"A", prospects:284, consultations:62,  new_enrollments:188, existing_enrollments:450, total_enrollments:638, eoy_goal:500, retention_rate:73.8 },
-    { name:"Austin",        state:"TX", cohort:"A", prospects:318, consultations:71,  new_enrollments:206, retention_rate:77.2 },
-    { name:"Cambridge",     state:"MA", cohort:"A", prospects:401, consultations:84,  new_enrollments:241, retention_rate:81.3 },
-    { name:"Pasadena",      state:"CA", cohort:"A", prospects:261, consultations:58,  new_enrollments:171, retention_rate:74.6 },
-    { name:"Johns Creek",   state:"GA", cohort:"A", prospects:294, consultations:65,  new_enrollments:193, retention_rate:76.1 },
-    { name:"Santa Clara",   state:"CA", cohort:"A", prospects:238, consultations:52,  new_enrollments:158, retention_rate:70.4 },
-    // ── COHORT B ──
-    { name:"Princeton",     state:"NJ", cohort:"B", prospects:198, consultations:44,  new_enrollments:134, retention_rate:68.2 },
-    { name:"Bellevue",      state:"WA", cohort:"B", prospects:312, consultations:68,  new_enrollments:204, retention_rate:75.8 },
-    { name:"Morrisville",   state:"NC", cohort:"B", prospects:228, consultations:50,  new_enrollments:152, retention_rate:67.4 },
-    { name:"Carmel Valley", state:"CA", cohort:"B", prospects:164, consultations:36,  new_enrollments:108, retention_rate:63.8 },
-    { name:"San Mateo",     state:"CA", cohort:"B", prospects:254, consultations:56,  new_enrollments:168, retention_rate:72.3 },
-    { name:"Fremont",       state:"CA", cohort:"B", prospects:276, consultations:61,  new_enrollments:182, retention_rate:74.1 },
-    { name:"Mountain View", state:"CA", cohort:"B", prospects:292, consultations:64,  new_enrollments:194, retention_rate:73.6 },
-    { name:"Portland",      state:"OR", cohort:"B", prospects:190, consultations:42,  new_enrollments:128, retention_rate:65.4 },
-    // ── COHORT C ──
-    { name:"Northbrook",    state:"IL", cohort:"C", prospects:152, consultations:33,  new_enrollments:102, retention_rate:62.4 },
-    { name:"Frisco",        state:"TX", cohort:"C", prospects:218, consultations:48,  new_enrollments:146, retention_rate:64.8 },
-    { name:"Lexington",     state:"MA", cohort:"C", prospects:198, consultations:44,  new_enrollments:134, retention_rate:66.2 },
-    { name:"Pleasanton",    state:"CA", cohort:"C", prospects:172, consultations:38,  new_enrollments:114, retention_rate:64.6 },
-    { name:"Gaithersburg",  state:"MD", cohort:"C", prospects:180, consultations:40,  new_enrollments:122, retention_rate:63.8 },
-    { name:"Irvine",        state:"CA", cohort:"C", prospects:148, consultations:32,  new_enrollments:98,  retention_rate:60.4 },
-    { name:"Vienna",        state:"VA", cohort:"C", prospects:176, consultations:39,  new_enrollments:118, retention_rate:65.6 },
-    { name:"Redmond",       state:"WA", cohort:"C", prospects:208, consultations:46,  new_enrollments:140, retention_rate:66.8 }
-  ],
+    {
+        "name": "Austin",
+        "state": "TX",
+        "cohort": "A",
+        "prospects": 307,
+        "consultations": 19,
+        "new_enrollments": 17,
+        "existing_enrollments": 2,
+        "total_enrollments": 19,
+        "eoy_goal": 500,
+        "retention_rate": NaN
+    },
+    {
+        "name": "Cambridge",
+        "state": "MA",
+        "cohort": "A",
+        "prospects": 164,
+        "consultations": 1,
+        "new_enrollments": 6,
+        "existing_enrollments": 14,
+        "total_enrollments": 20,
+        "eoy_goal": 500,
+        "retention_rate": NaN
+    },
+    {
+        "name": "Johns Creek",
+        "state": "GA",
+        "cohort": "A",
+        "prospects": 196,
+        "consultations": 55,
+        "new_enrollments": 22,
+        "existing_enrollments": 62,
+        "total_enrollments": 84,
+        "eoy_goal": 500,
+        "retention_rate": 41.3
+    },
+    {
+        "name": "Pasadena",
+        "state": "CA",
+        "cohort": "A",
+        "prospects": 277,
+        "consultations": 84,
+        "new_enrollments": 22,
+        "existing_enrollments": 27,
+        "total_enrollments": 49,
+        "eoy_goal": 500,
+        "retention_rate": 20.6
+    },
+    {
+        "name": "Santa Clara",
+        "state": "CA",
+        "cohort": "A",
+        "prospects": 654,
+        "consultations": 272,
+        "new_enrollments": 83,
+        "existing_enrollments": 617,
+        "total_enrollments": 700,
+        "eoy_goal": 500,
+        "retention_rate": 37.0
+    },
+    {
+        "name": "Sugar Land",
+        "state": "TX",
+        "cohort": "A",
+        "prospects": 246,
+        "consultations": 54,
+        "new_enrollments": 10,
+        "existing_enrollments": 1,
+        "total_enrollments": 11,
+        "eoy_goal": 500,
+        "retention_rate": NaN
+    },
+    {
+        "name": "Bellevue",
+        "state": "WA",
+        "cohort": "B",
+        "prospects": 491,
+        "consultations": 197,
+        "new_enrollments": 37,
+        "existing_enrollments": 517,
+        "total_enrollments": 554,
+        "eoy_goal": 500,
+        "retention_rate": 35.1
+    },
+    {
+        "name": "Fremont",
+        "state": "CA",
+        "cohort": "B",
+        "prospects": 416,
+        "consultations": 137,
+        "new_enrollments": 53,
+        "existing_enrollments": 373,
+        "total_enrollments": 426,
+        "eoy_goal": 500,
+        "retention_rate": 34.2
+    },
+    {
+        "name": "Millburn",
+        "state": "NJ",
+        "cohort": "B",
+        "prospects": 278,
+        "consultations": 120,
+        "new_enrollments": 17,
+        "existing_enrollments": 130,
+        "total_enrollments": 147,
+        "eoy_goal": 500,
+        "retention_rate": 22.5
+    },
+    {
+        "name": "Morrisville",
+        "state": "NC",
+        "cohort": "B",
+        "prospects": 398,
+        "consultations": 194,
+        "new_enrollments": 86,
+        "existing_enrollments": 867,
+        "total_enrollments": 953,
+        "eoy_goal": 500,
+        "retention_rate": 60.1
+    },
+    {
+        "name": "Mountain View",
+        "state": "CA",
+        "cohort": "B",
+        "prospects": 527,
+        "consultations": 208,
+        "new_enrollments": 110,
+        "existing_enrollments": 525,
+        "total_enrollments": 635,
+        "eoy_goal": 500,
+        "retention_rate": 41.6
+    },
+    {
+        "name": "Portland",
+        "state": "OR",
+        "cohort": "B",
+        "prospects": 146,
+        "consultations": 59,
+        "new_enrollments": 10,
+        "existing_enrollments": 21,
+        "total_enrollments": 31,
+        "eoy_goal": 500,
+        "retention_rate": 43.8
+    },
+    {
+        "name": "Princeton",
+        "state": "NJ",
+        "cohort": "B",
+        "prospects": 312,
+        "consultations": 102,
+        "new_enrollments": 43,
+        "existing_enrollments": 291,
+        "total_enrollments": 334,
+        "eoy_goal": 500,
+        "retention_rate": 24.9
+    },
+    {
+        "name": "San Diego",
+        "state": "CA",
+        "cohort": "B",
+        "prospects": 497,
+        "consultations": 194,
+        "new_enrollments": 67,
+        "existing_enrollments": 725,
+        "total_enrollments": 792,
+        "eoy_goal": 500,
+        "retention_rate": 40.3
+    },
+    {
+        "name": "San Mateo",
+        "state": "CA",
+        "cohort": "B",
+        "prospects": 360,
+        "consultations": 140,
+        "new_enrollments": 49,
+        "existing_enrollments": 116,
+        "total_enrollments": 165,
+        "eoy_goal": 500,
+        "retention_rate": 35.2
+    },
+    {
+        "name": "Saratoga",
+        "state": "CA",
+        "cohort": "B",
+        "prospects": 429,
+        "consultations": 121,
+        "new_enrollments": 39,
+        "existing_enrollments": 170,
+        "total_enrollments": 209,
+        "eoy_goal": 500,
+        "retention_rate": 24.0
+    },
+    {
+        "name": "Upper West Side",
+        "state": "NY",
+        "cohort": "B",
+        "prospects": 325,
+        "consultations": 78,
+        "new_enrollments": 26,
+        "existing_enrollments": 46,
+        "total_enrollments": 72,
+        "eoy_goal": 500,
+        "retention_rate": 22.5
+    },
+    {
+        "name": "Frisco",
+        "state": "TX",
+        "cohort": "C",
+        "prospects": 567,
+        "consultations": 263,
+        "new_enrollments": 141,
+        "existing_enrollments": 799,
+        "total_enrollments": 940,
+        "eoy_goal": 500,
+        "retention_rate": 51.0
+    },
+    {
+        "name": "Gaithersburg",
+        "state": "MD",
+        "cohort": "C",
+        "prospects": 181,
+        "consultations": 92,
+        "new_enrollments": 15,
+        "existing_enrollments": 159,
+        "total_enrollments": 174,
+        "eoy_goal": 500,
+        "retention_rate": 22.3
+    },
+    {
+        "name": "Irvine",
+        "state": "CA",
+        "cohort": "C",
+        "prospects": 449,
+        "consultations": 186,
+        "new_enrollments": 31,
+        "existing_enrollments": 265,
+        "total_enrollments": 296,
+        "eoy_goal": 500,
+        "retention_rate": 39.0
+    },
+    {
+        "name": "Lexington",
+        "state": "MA",
+        "cohort": "C",
+        "prospects": 491,
+        "consultations": 158,
+        "new_enrollments": 108,
+        "existing_enrollments": 755,
+        "total_enrollments": 863,
+        "eoy_goal": 500,
+        "retention_rate": 51.2
+    },
+    {
+        "name": "Northbrook",
+        "state": "IL",
+        "cohort": "C",
+        "prospects": 179,
+        "consultations": 63,
+        "new_enrollments": 16,
+        "existing_enrollments": 133,
+        "total_enrollments": 149,
+        "eoy_goal": 500,
+        "retention_rate": 55.4
+    },
+    {
+        "name": "Pleasanton",
+        "state": "CA",
+        "cohort": "C",
+        "prospects": 530,
+        "consultations": 196,
+        "new_enrollments": 73,
+        "existing_enrollments": 646,
+        "total_enrollments": 719,
+        "eoy_goal": 500,
+        "retention_rate": 40.1
+    },
+    {
+        "name": "Redmond",
+        "state": "WA",
+        "cohort": "C",
+        "prospects": 479,
+        "consultations": 204,
+        "new_enrollments": 45,
+        "existing_enrollments": 214,
+        "total_enrollments": 259,
+        "eoy_goal": 500,
+        "retention_rate": 29.4
+    },
+    {
+        "name": "Vienna",
+        "state": "VA",
+        "cohort": "C",
+        "prospects": 289,
+        "consultations": 73,
+        "new_enrollments": 28,
+        "existing_enrollments": 245,
+        "total_enrollments": 273,
+        "eoy_goal": 500,
+        "retention_rate": 33.1
+    }
+],
 
-  // ── NETWORK AGGREGATES ─────────────────────────────────────────
-  // Python script updates these each run (sum / avg across campuses)
-  // ──────────────────────────────────────────────────────────────
+  // ── NETWORK AGGREGATES — overwritten each run
   network: {
-    total_prospects:       4946,
-    total_consultations:   1093,
-    total_new_enrollments: 3307,
-    avg_retention_rate:    69.8,
-    eoy_enrollment_goal:   0,       // filled once you have goals
-    eoy_consultations_goal:0
-  }
+  "total_prospects": 9188,
+  "total_consultations": 3270,
+  "total_new_enrollments": 1154,
+  "total_existing_enrollments": 7720,
+  "total_enrollments": 8874,
+  "avg_retention_rate": 39.0,
+  "eoy_enrollment_goal": 12500
+}
 
 };
 // DATA_END
